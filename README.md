@@ -78,7 +78,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
     </tr>
   <tr>
   <td>
-    DynamiCrafter320x512 
+    DynamiCrafter
   </td>
   <td>
     <img src=assets\conditionalImg\15.png width="250">
@@ -94,7 +94,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
 
    <tr>
   <td>
-    VideoCrafter320x512 
+    VideoCrafter
   </td>
   <td>
     <img src=assets\conditionalImg\5.png width="250">
@@ -108,7 +108,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
   </tr>
    <tr>
   <td>
-    SVD 576x1024
+    SVD
   </td>
   <td>
     <img src=assets\conditionalImg\39.png width="250">
