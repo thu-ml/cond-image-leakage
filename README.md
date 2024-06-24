@@ -72,7 +72,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
 <table class="center">
     <tr style="font-weight: bolder;text-align:center;">
         <td>Model</td>
-        <td>Conditional Image</td>
+        <td>Given Conditional Image</td>
         <td>Standard inference</td>
         <td>+ Our inference strategy</td>
     </tr>
