@@ -20,7 +20,7 @@ Diffusion models have obtained substantial progress in image-to-video (I2V) gene
 ![overview](assets/overview.png)
 
 ## ✅ To do list:
-- [x] __[2024.06.20]__: Release code, models and project page.
+- [x] __[2024.06.24]__: Release code, models and project page.
 - [ ] Release the models without watermarks and in other resolutions.
 - [ ] Applying our strategy on [Vidu](https://arxiv.org/abs/2405.04233), a transformer-based text-to-video diffusion model.
 
