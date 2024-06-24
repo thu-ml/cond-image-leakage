@@ -1,0 +1,27 @@
+seed:
+  42
+debug: false
+original_svd: true
+pretrained_model_path: "ckpt/pretrained/stable-video-diffusion-img2vid/"
+batch_size: 1
+data_dir:
+  ./demo
+resolution: 
+  - 1024
+  - 576
+checkpoint_root: None
+step:
+  20000
+use_ema: true
+motion_bucket_id:
+  20.0
+fps:
+  3
+num_step:
+  25
+noise_aug_strength:
+  0.002
+sigma_max:
+  700
+analytic_path:
+  "ckpt/initial_noise_1024.pt"

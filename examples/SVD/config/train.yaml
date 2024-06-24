@@ -1,0 +1,35 @@
+global_seed: 23
+motion_bucket_id: 20.0
+
+noise_scheduler_kwargs:
+  P_mean: -1.2 
+  P_std: 1.2 
+  sigma_data: 1
+  condition_P_mean: -3.0
+  condition_P_std: 1.6
+
+train_data:
+  file_path: '../dataset'
+  video_folder: '../dataset/results_2M_train.csv'
+  sample_size:     320,512
+  fps:   3
+  sample_n_frames: 16  
+
+output_dir: "results/train"
+pretrained_model_path: "ckpt/pretrained/stable-video-diffusion-img2vid/"
+resume_path: "" 
+
+debug: False
+use_ema: True
+gradient_checkpointing: True
+mixed_precision_training: True
+
+cfg_random_null_ratio: 0.1
+learning_rate:  3.e-5
+train_batch_size: 1
+max_train_steps:  100000
+ema_decay: 0.9999
+checkpointing_steps:  10000
+
+beta_m: 15
+a: 5

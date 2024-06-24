@@ -50,8 +50,7 @@ pip install -r requirements.txt
 ```
 
 ##  ☀️ Dataset
-Download the WebVid dataset from [here](https://github.com/m-bain/webvid), where we use Webvid-2M subset. Put ```.csv``` file in  ```dataset/``` and video data in ```dataset/```. We use the raw data without any filters.
-
+Download the WebVid dataset from [here](https://github.com/m-bain/webvid), where we use Webvid-2M subset. Put ```.csv``` file in  ```examples/dataset/results_2M_train.csv``` and video data in ```examples/dataset/```. We use the raw data without any filters.
 ## 🧊 Inference Strategy
 
 We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiCrafter) and [VideoCrafter1](https://github.com/AILab-CVC/VideoCrafter) and implement  [SVD](https://github.com/Stability-AI/generative-models) by ourselves. We apply our plug and plug-and-play strategies on them.
@@ -60,25 +59,25 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
 
 | Model                     | Resolution   | Initial Noise                                                                           |
 |:--------------------------|:-------------|:----------------------------------------------------------------------------------------|
-| DynamiCrafter     | 256x256      | [Initial Noise](https://huggingface.co/Doubiiu/DynamiCrafter_1024/blob/main/model.ckpt) |
-| DynamiCrafter     | 320x512      | [Initial Noise](https://huggingface.co/Doubiiu/DynamiCrafter_1024/blob/main/model.ckpt) |
-| DynamiCrafter     | 576x1024     | [Initial Noise](https://huggingface.co/Doubiiu/DynamiCrafter_1024/blob/main/model.ckpt) |
-| VideoCrafter      | 256x256      | [Initial Noise](https://huggingface.co/Doubiiu/DynamiCrafter_512/blob/main/model.ckpt)  |
-| VideoCrafter      | 320x512      | [Initial Noise](https://huggingface.co/Doubiiu/DynamiCrafter_512/blob/main/model.ckpt)  |
-| VideoCrafter      | 576x1024     | [Initial Noise](https://huggingface.co/Doubiiu/DynamiCrafter_512/blob/main/model.ckpt)  |
-| SVD                       | 576 x 1024   | [Initial Noise](https://huggingface.co/Doubiiu/DynamiCrafter/blob/main/model.ckpt)      |
-
+| DynamiCrafter     | 256x256      | [Initial Noise]() |
+| DynamiCrafter     | 320x512      | [Initial Noise]() |
+| DynamiCrafter     | 576x1024     | [Initial Noise]() |
+| VideoCrafter      | 256x256      | [Initial Noise]()  |
+| VideoCrafter      | 320x512      | [Initial Noise]()  |
+| VideoCrafter      | 576x1024     | [Initial Noise]()  |
+| SVD                       | 320 x 512   | [Initial Noise]()      |
+| SVD                       | 576 x 1024   | [Initial Noise]()      |
 ### 😄 Example Results
 <table class="center">
     <tr style="font-weight: bolder;text-align:center;">
         <td>Model</td>
-        <td>Given Conditional Image</td>
+        <td>Conditional Image</td>
         <td>Standard inference</td>
         <td>+ Our inference strategy</td>
     </tr>
   <tr>
   <td>
-    DynamiCrafter
+    DynamiCrafter320x512 
   </td>
   <td>
     <img src=assets\conditionalImg\15.png width="250">
@@ -94,7 +93,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
 
    <tr>
   <td>
-    VideoCrafter
+    VideoCrafter320x512 
   </td>
   <td>
     <img src=assets\conditionalImg\5.png width="250">
@@ -108,7 +107,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
   </tr>
    <tr>
   <td>
-    SVD
+    SVD 576x1024
   </td>
   <td>
     <img src=assets\conditionalImg\39.png width="250">
@@ -123,7 +122,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
 </table >
 
 ### DynamiCrafter
-1. Download the original DynamiCrafter checkpoints from the [repository](https://github.com/Doubiiu/DynamiCrafter) or our DynamiCrafter-CIL from [here]() and put them in ```examples/DynamiCrafter/ckpt/```. Download the initial noise in the above table and put them in ```examples/DynamiCrafter/ckpt/```. 
+1. Download the original DynamiCrafter checkpoints from the [repository](https://github.com/Doubiiu/DynamiCrafter) or our DynamiCrafter-CIL from [here]() and put them in ```examples/DynamiCrafter/ckpt/original``` or ```examples/DynamiCrafter/ckpt/finetuned``` respectively. Download the initial noise in the above table and put them in ```examples/DynamiCrafter/ckpt/```. 
 2. Run the following commands:
 ```
 cd examples/DynamiCrafter
@@ -136,22 +135,22 @@ sh inference_CIL_512.sh
 ```
 
 The relevant parameters in ```inference.sh``` for our strategy are explained as follows:
-* ```ddpm_num_steps_for_inference```: the start time M. 
+* ```M```: the start timestep M. 
 * ```whether_analytic_init```:  indicates whether to use Analytic-Init; 0 means it is not applied, while 1 means it is applied
 * ```analytic_init_path```: the path for initializing the mean and variance of the noise if Analytic-Init is applied 
 
-Note that ```ddpm_num_steps_for_inference=1000, whether_analytic_init=0``` is the baseline.
+Note that ```M=1000, whether_analytic_init=0``` is the baseline.
 
 
-The effect of start time M ```ddpm_num_steps_for_inference ``` are as follows:
+The effect of start time ```M ``` is as follows:
 <table class="center">
     <tr style="font-weight: bolder;text-align:center;">
         <td>Conditional Image</td>
         <td>M=1.00T</td>
-        <td>M=0.96T</td>
-        <td>M=0.92T</td>
-        <td>M=0.88T</td>
-        <td>M=0.84T</td>
+        <td>M=0.94T</td>
+        <td>M=0.90T</td>
+        <td>M=0.86T</td>
+        <td>M=0.82T</td>
     </tr>
     <tr>
     <td>
@@ -179,7 +178,7 @@ enhance performance by increasing motion without compromising other performance.
 M delivers poor visual quality due to the training-inference gap.
 
 ### SVD
-1. Download the Stable Video Diffusion checkpoints from the [repository](https://github.com/Stability-AI/generative-models) or our SVD-CIL from [here]() and put them in ```examples/SVD/ckpt/```. Download the initial noise in the above table and put them in ```examples/SVD/ckpt/```. 
+1. Download the [pretrained SVD model](https://huggingface.co/stabilityai/stable-video-diffusion-img2vid) and put it in `ckpt/pretrained/stable-video-diffusion-img2vid` , or download our SVD-CIL from [here]() and put it in ```examples/SVD/ckpt/```. Download the initial noise in the above table and put them in ```examples/SVD/ckpt/```. 
 2. Run the following commands:
 ```
 cd examples/SVD
@@ -193,15 +192,10 @@ sh inference_CIL_512.sh
 ```
 The relevant parameters for inference are set in `config/inference.yaml`,which are explained as follows:
 * ```sigma_max```: the start time M.  
-* ```whether_analytic_init```:  indicates whether to use Analytic-Init; 0 means it is not applied, while 1 means it is applied
 * ```analytic_init_path```: the path for initializing the mean and variance of the noise if Analytic-Init is applied 
 
-Note that ```sigma_max=700, whether_analytic_init=0``` is the baseline.
-
-
-
 ### VideoCrafter1
-1. Download the VideoCrafter checkpoints from the [repository](https://github.com/AILab-CVC/VideoCrafter) and put them in ```examples/VideoCrafter/ckpt/pretrained```. Download the initial noise in the above table and put them in ```examples/VideoCrafter/ckpt/```. 
+1. Download the VideoCrafter checkpoints from the [repository](https://github.com/AILab-CVC/VideoCrafter) and put them in ```examples/VideoCrafter/ckpt```. Download the initial noise in the above table and put them in ```examples/VideoCrafter/ckpt```. 
 2. Run the following commands:
 
 ```
@@ -215,11 +209,8 @@ sh inference_CIL_512.sh
 ```
 
 The relevant parameters in ```inference.sh``` for our strategy are explained as follows:
-* ```ddpm_num_steps_for_inference```: the start time M 
-* ```whether_analytic_init```:  indicates whether to use Analytic-Init; 0 means it is not applied, while 1 means it is applied
+* ```M```: the start time M 
 * ```analytic_init_path```: the path for initializing the mean and variance of the noise if Analytic-Init is applied 
-
-Note that ```ddpm_num_steps_for_inference=1000, whether_analytic_init=0``` is the baseline.
 
 ## 🔥 Training Strategy
 Similar to the inference strategy, we finetune the baselines based on the repository  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiCrafter), [VideoCrafter1](https://github.com/AILab-CVC/VideoCrafter) and [SVD](https://github.com/Stability-AI/generative-models). 
@@ -342,7 +333,7 @@ The effect of ```a``` is as follows:
 Lower a correspond to more dynamic motion and lower temporal consistency and image alignment.
 
 ### SVD
-1. Download the SVD checkpoints from the [repository](https://github.com/Doubiiu/SVD) and put them in ```examples/SVD/ckpt/```.
+1. Download the SVD checkpoints from the [repository](https://github.com/Doubiiu/SVD) and put them in ```examples/SVD/ckpt/pretrained/stable-video-diffusion-img2vid```.
 2. Run the following commands:
 ```
 cd examples/SVD
@@ -385,7 +376,7 @@ If you find this repository helpful, please cite as:
   title={Identifying and Solving Conditional Image Leakage
 in Image-to-Video Diffusion Model},
   author={Min Zhao, Hongzhou Zhu, Chendong Xiang, Kaiwen Zheng, Chongxuan Li and Jun Zhu},
-  journal={arXiv preprint arXiv:2310.12190},
+  journal={arXiv preprint arXi:},
   year={2024}
 }
 ```
