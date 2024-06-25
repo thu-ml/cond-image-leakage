@@ -280,7 +280,7 @@ sh train.sh
 ```
 The relevant parameters in ```train.sh``` for our strategy are explained as follows:
 * ```beta_m```: the maximum noise level.  
-* ```a```:  the exponent of center of the distribution: $/mu(t)=2t^a-1$, where $a > 0$. 
+* ```a```:  the exponent of center of the distribution: $\mu(t)=2t^a-1$, where $a > 0$. 
 
 The effect of ```beta_m```is as follows:
 <table class="center">
@@ -343,7 +343,7 @@ sh train.sh
 The relevant parameters in `examples/SVD/config/train.yaml`for our strategy are explained as follows: 
 
 * ```beta_m```: the maximum noise level.  Higher beta_m correspond to more dynamic motion and lower temporal consistency and image alignment. 
-* ```a```:  the exponent of center of the distribution: $/mu(t)=2t^a-1$, where $a > 0$. Lower $a$ correspond to more dynamic motion and lower temporal consistency and image alignment.
+* ```a```:  the exponent of center of the distribution: $\mu(t)=2t^a-1$, where $a > 0$. Lower $a$ correspond to more dynamic motion and lower temporal consistency and image alignment.
 
 Note that original SVD first add noise on conditional image and then feed it into VAE. Here we first feed the conditional image into VAE and then add noise on the conditional latents.
 
@@ -357,7 +357,7 @@ sh train.sh
 The relevant parameters in ```train.sh``` for our strategy are explained as follows:
 
 * ```beta_m```: the maximum noise level.  Higher beta_m correspond to more dynamic motion and lower temporal consistency and image alignment. 
-* ```a```:  the exponent of center of the distribution: $/mu(t)=2t^a-1$, where $a > 0$. Lower $a$ correspond to more dynamic motion and lower temporal consistency and image alignment.
+* ```a```:  the exponent of center of the distribution: $\mu(t)=2t^a-1$, where $a > 0$. Lower $a$ correspond to more dynamic motion and lower temporal consistency and image alignment.
 
 ### 🎒 Checkpoints
 Naive fine-tuning and ours were trained under the same settings for fair comparison. In the future, we will release the model without watermark.
