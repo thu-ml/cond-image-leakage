@@ -122,7 +122,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
 </table >
 
 ### DynamiCrafter
-1. Download the original DynamiCrafter checkpoints from the [repository](https://github.com/Doubiiu/DynamiCrafter) or our DynamiCrafter-CIL from [here]() and put them in ```examples/DynamiCrafter/ckpt/original``` or ```examples/DynamiCrafter/ckpt/finetuned``` respectively. Download the initial noise in the above table and put them in ```examples/DynamiCrafter/ckpt/```. 
+1. Download the original DynamiCrafter checkpoints from the [repository](https://github.com/Doubiiu/DynamiCrafter) or our DynamiCrafter-CIL from [here](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512) and put them in ```examples/DynamiCrafter/ckpt/original``` or ```examples/DynamiCrafter/ckpt/finetuned``` respectively. Download the initial noise in the above table and put them in ```examples/DynamiCrafter/ckpt/```. 
 2. Run the following commands:
 ```
 cd examples/DynamiCrafter
@@ -178,7 +178,7 @@ enhance performance by increasing motion without compromising other performance.
 M delivers poor visual quality due to the training-inference gap.
 
 ### SVD
-1. Download the [pretrained SVD model](https://huggingface.co/stabilityai/stable-video-diffusion-img2vid) and put it in `ckpt/pretrained/stable-video-diffusion-img2vid` , or download our SVD-CIL from [here]() and put it in ```examples/SVD/ckpt/```. Download the initial noise in the above table and put them in ```examples/SVD/ckpt/```. 
+1. Download the [pretrained SVD model](https://huggingface.co/stabilityai/stable-video-diffusion-img2vid) and put it in `ckpt/pretrained/stable-video-diffusion-img2vid` . Or download our SVD-CIL from [here](https://huggingface.co/GraceZhao/SVD-CIL-512) and put it in ```examples/SVD/ckpt/```. Download the initial noise in the above table and put them in ```examples/SVD/ckpt/```. 
 2. Run the following commands:
 ```
 cd examples/SVD
@@ -363,9 +363,9 @@ Naive fine-tuning and ours were trained under the same settings for fair compari
 
 | Model                   | Naive Fine-Tuning                                                                         | ours on Webvid                                                                    |
 |:------------------------|:---------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|
-| DynamiCrafter           | [320x512](https://huggingface.co/Doubiiu/DynamiCrafter_1024/blob/main/model.ckpt)      | [320x512](https://huggingface.co/Doubiiu/DynamiCrafter_1024/blob/main/model.ckpt) |
-| SVD                     | [320x512](https://huggingface.co/Doubiiu/DynamiCrafter_512/blob/main/model.ckpt) | [320x512](https://huggingface.co/Doubiiu/DynamiCrafter_1024/blob/main/model.ckpt) |
-| VideoCrafter1           | [320x512](https://huggingface.co/Doubiiu/DynamiCrafter/blob/main/model.ckpt)     | [320x512]() |
+| DynamiCrafter           | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-naive-finetune)      | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512) |
+| SVD                     | [320x512](https://huggingface.co/GraceZhao/SVD-naive-finetune) | [320x512](https://huggingface.co/GraceZhao/SVD-CIL-512) |
+| VideoCrafter1           | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-naive-finetune)     | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-CIL-512) |
 
 
 
