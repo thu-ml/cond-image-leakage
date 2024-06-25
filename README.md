@@ -59,14 +59,14 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
 
 | Model                     | Resolution   | Initial Noise                                                                           |
 |:--------------------------|:-------------|:----------------------------------------------------------------------------------------|
-| DynamiCrafter     | 256x256      | [Initial Noise](https://huggingface.co/zhuhz22/DynamiCrafter-Analytic-Init/tree/main) |
-| DynamiCrafter     | 320x512      | [Initial Noise](https://huggingface.co/zhuhz22/DynamiCrafter-Analytic-Init/tree/main) |
-| DynamiCrafter     | 576x1024     | [Initial Noise](https://huggingface.co/zhuhz22/DynamiCrafter-Analytic-Init/tree/main) |
-| VideoCrafter      | 256x256      | [Initial Noise](https://huggingface.co/zhuhz22/VideoCrafter-Analytic-Init/tree/main)  |
-| VideoCrafter      | 320x512      | [Initial Noise](https://huggingface.co/zhuhz22/VideoCrafter-Analytic-Init/tree/main)  |
-| VideoCrafter      | 576x1024     | [Initial Noise](https://huggingface.co/zhuhz22/VideoCrafter-Analytic-Init/tree/main)  |
-| SVD                       | 320 x 512   | [Initial Noise](https://huggingface.co/zhuhz22/SVD-Analytic-init/tree/main)      |
-| SVD                       | 576 x 1024   | [Initial Noise](https://huggingface.co/zhuhz22/SVD-Analytic-init/tree/main)      |
+| DynamiCrafter     | 256x256      | [Initial Noise](https://huggingface.co/GraceZhao/DynamiCrafter-Analytic-Init/tree/main) |
+| DynamiCrafter     | 320x512      | [Initial Noise](https://huggingface.co/GraceZhao/DynamiCrafter-Analytic-Init/tree/main) |
+| DynamiCrafter     | 576x1024     | [Initial Noise](https://huggingface.co/GraceZhao/DynamiCrafter-Analytic-Init/tree/main) |
+| VideoCrafter      | 256x256      | [Initial Noise](https://huggingface.co/GraceZhao/VideoCrafter-Analytic-Init/tree/main)  |
+| VideoCrafter      | 320x512      | [Initial Noise](https://huggingface.co/GraceZhao/VideoCrafter-Analytic-Init/tree/main)  |
+| VideoCrafter      | 576x1024     | [Initial Noise](https://huggingface.co/GraceZhao/VideoCrafter-Analytic-Init/tree/main)  |
+| SVD                       | 320 x 512   | [Initial Noise](https://huggingface.co/GraceZhao/SVD/tree/main)      |
+| SVD                       | 576 x 1024   | [Initial Noise](https://huggingface.co/GraceZhao/SVD/tree/main)      |
 
 ### 😄 Example Results
 <table class="center">
