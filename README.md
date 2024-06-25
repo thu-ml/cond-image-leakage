@@ -386,5 +386,5 @@ in Image-to-Video Diffusion Model},
 This implementation is based on the following work:
 * [DynamiCrafter: Animating Open-domain Images with Video Diffusion Priors](https://doubiiu.github.io/projects/DynamiCrafter)
 * [Stable Video Diffusion: Scaling Latent Video Diffusion Models to Large Datasets](https://github.com/Stability-AI/generative-models)
-* [VideoCrafter1: Open Diffusion Models for High-Quality Video Generation](https://github.com/AILab-CVC/VideoCrafter)/
+* [VideoCrafter1: Open Diffusion Models for High-Quality Video Generation](https://github.com/AILab-CVC/VideoCrafter/)
 Thanks to the authors for sharing their code and models.
