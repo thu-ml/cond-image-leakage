@@ -30,4 +30,4 @@ scripts/evaluation/ddp_wrapper.py \
 --savefps 8 \
 --frames 16 \
 --M ${M} \
---analytic_init_path "ckpt/initial_noise.pt"
+--analytic_init_path "ckpt/initial_noise_512.pt"

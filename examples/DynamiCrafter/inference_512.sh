@@ -36,5 +36,5 @@ scripts/evaluation/ddp_wrapper.py \
 --perframe_ae \
 --M ${M} \
 --whether_analytic_init 1 \
---analytic_init_path 'ckpt/initial_noise.pt' 
+--analytic_init_path 'ckpt/initial_noise_512.pt' 
  
