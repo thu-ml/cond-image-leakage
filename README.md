@@ -67,6 +67,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
 | VideoCrafter      | 576x1024     | [Initial Noise](https://huggingface.co/GraceZhao/VideoCrafter-Analytic-Init/tree/main)  |
 | SVD                       | 320 x 512   | [Initial Noise](https://huggingface.co/GraceZhao/SVD-Analytic-init)      |
 | SVD                       | 576 x 1024   | [Initial Noise](https://huggingface.co/GraceZhao/SVD-Analytic-init)      |
+
 ### 😄 Example Results
 <table class="center">
     <tr style="font-weight: bolder;text-align:center;">
