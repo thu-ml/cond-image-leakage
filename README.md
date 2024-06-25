@@ -5,7 +5,7 @@
 
  <a href='https://arxiv.org/abs/2406.15735'><img src='https://img.shields.io/badge/arXiv-2406.15735-b31b1b.svg'></a> &nbsp;
  <a href='https://cond-image-leak.github.io/'><img src='https://img.shields.io/badge/Project-Page-Green'></a> &nbsp;
- <a href=''><img src='https://img.shields.io/badge/Zhihu-Page-Blue'></a> &nbsp;
+ <a href='https://zhuanlan.zhihu.com/p/705300028?utm_campaign=shareopn&utm_medium=social&utm_psn=1788953432507416577&utm_source=wechat_session'><img src='https://img.shields.io/badge/Zhihu-Page-Blue'></a> &nbsp;
 
 _**[Min Zhao](https://gracezhao1997.github.io/), [Hongzhou Zhu](https://zhuhz22.github.io/), [Chendong Xiang](https://xiang-cd.github.io/), [Kaiwen Zheng](https://scholar.google.com/citations?user=0d80xSIAAAAJ&hl=en), [Chongxuan Li](https://zhenxuan00.github.io/), [Jun Zhu](https://ml.cs.tsinghua.edu.cn/~jun/software.shtml)**_
 
