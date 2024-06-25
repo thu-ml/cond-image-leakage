@@ -1,4 +1,4 @@
-ckpt='ckpt/model.ckpt' # path to your checkpoint
+ckpt='ckpt/original/model.ckpt' # path to your checkpoint
 config='configs/inference_i2v_512_v1.0.yaml'
 
 prompt_file="prompts/512/test_prompts.txt" # file for 
@@ -30,4 +30,4 @@ scripts/evaluation/ddp_wrapper.py \
 --savefps 8 \
 --frames 16 \
 --M ${M} \
---analytic_init_path "ckpt/initial_noise.pt"
+--analytic_init_path "ckpt/initial_noise_512.pt"

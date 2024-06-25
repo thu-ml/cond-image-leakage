@@ -81,13 +81,13 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
     DynamiCrafter320x512 
   </td>
   <td>
-    <img src=assets\conditionalImg\15.png width="250">
+    <img src=assets/conditionalImg/15.png width="250">
   </td>
   <td>
-    <img src=assets\DC\15base.gif width="250">
+    <img src=assets/DC/15base.gif width="250">
   </td>
   <td>
-    <img src=assets\DC\15_sample0.gif width="250">
+    <img src=assets/DC/15_sample0.gif width="250">
   </td>
   </tr>
 
@@ -97,13 +97,13 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
     VideoCrafter320x512 
   </td>
   <td>
-    <img src=assets\conditionalImg\5.png width="250">
+    <img src=assets/conditionalImg/5.png width="250">
   </td>
   <td>
-    <img src=assets\VC\5base.gif width="250">
+    <img src=assets/VC/5base.gif width="250">
   </td>
   <td>
-    <img src=assets\VC\5_sample0.gif width="250">
+    <img src=assets/VC/5_sample0.gif width="250">
   </td>
   </tr>
    <tr>
@@ -111,19 +111,19 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
     SVD 576x1024
   </td>
   <td>
-    <img src=assets\conditionalImg\39.png width="250">
+    <img src=assets/conditionalImg/39.png width="250">
   </td>
   <td>
-    <img src=assets\SVD\39base.gif width="250">
+    <img src=assets/SVD/39base.gif width="250">
   </td>
   <td>
-    <img src=assets\SVD\39_sample0.gif width="250">
+    <img src=assets/SVD/39_sample0.gif width="250">
   </td>
   </tr>
 </table >
 
 ### DynamiCrafter
-1. Download the original DynamiCrafter checkpoints from the [repository](https://github.com/Doubiiu/DynamiCrafter) or our DynamiCrafter-CIL from [here](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512) and put them in ```examples/DynamiCrafter/ckpt/original``` or ```examples/DynamiCrafter/ckpt/finetuned``` respectively. Download the initial noise in the above table and put them in ```examples/DynamiCrafter/ckpt/```. 
+1. Download the original DynamiCrafter checkpoints from the [repository](https://github.com/Doubiiu/DynamiCrafter) and put it in ```examples/DynamiCrafter/ckpt/original``` ,or  download our DynamiCrafter-CIL from [here](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512) and put it in ```examples/DynamiCrafter/ckpt/finetuned```. Download the initial noise in the above table and put it in ```examples/DynamiCrafter/ckpt/```. 
 2. Run the following commands:
 ```
 cd examples/DynamiCrafter
@@ -155,22 +155,22 @@ The effect of start time ```M ``` is as follows:
     </tr>
     <tr>
     <td>
-      <img src=assets\conditionalImg\sunflower.png width="150">
+      <img src=assets/conditionalImg/sunflower.png width="150">
     </td>
         <td>
-      <img src=assets\effect_of_M\1000.gif width="150">
+      <img src=assets/effect_of_M/1000.gif width="150">
     </td>
         <td>
-      <img src=assets\effect_of_M\960.gif width="150">
+      <img src=assets/effect_of_M/960.gif width="150">
     </td>
         <td>
-      <img src=assets\effect_of_M\920.gif width="150">
+      <img src=assets/effect_of_M/920.gif width="150">
     </td>
         <td>
-      <img src=assets\effect_of_M\880.gif width="150">
+      <img src=assets/effect_of_M/880.gif width="150">
     </td>
         <td>
-      <img src=assets\effect_of_M\840.gif width="150">
+      <img src=assets/effect_of_M/840.gif width="150">
     </td>
     </tr>
 </table >
@@ -179,7 +179,7 @@ enhance performance by increasing motion without compromising other performance.
 M delivers poor visual quality due to the training-inference gap.
 
 ### SVD
-1. Download the [pretrained SVD model](https://huggingface.co/stabilityai/stable-video-diffusion-img2vid) and put it in `ckpt/pretrained/stable-video-diffusion-img2vid` . Or download our SVD-CIL from [here](https://huggingface.co/GraceZhao/SVD-CIL-512) and put it in ```examples/SVD/ckpt/```. Download the initial noise in the above table and put them in ```examples/SVD/ckpt/```. 
+1. Download the [pretrained SVD model](https://huggingface.co/stabilityai/stable-video-diffusion-img2vid) and put it in `examples/SVD/ckpt/pretrained/stable-video-diffusion-img2vid` . Download our SVD-CIL from [here](https://huggingface.co/GraceZhao/SVD-CIL-512) and put it in ```examples/SVD/ckpt/finetuned```. Download the initial noise in the above table and put them in ```examples/SVD/ckpt/```. 
 2. Run the following commands:
 ```
 cd examples/SVD
@@ -191,12 +191,12 @@ sh inference.sh
 sh inference_CIL_512.sh
  
 ```
-The relevant parameters for inference are set in `config/inference.yaml`,which are explained as follows:
+The relevant parameters for inference are set in `examples/SVD/config/inference.yaml`,which are explained as follows:
 * ```sigma_max```: the start time M.  
 * ```analytic_init_path```: the path for initializing the mean and variance of the noise if Analytic-Init is applied 
 
 ### VideoCrafter1
-1. Download the VideoCrafter checkpoints from the [repository](https://github.com/AILab-CVC/VideoCrafter) and put them in ```examples/VideoCrafter/ckpt```. Download the initial noise in the above table and put them in ```examples/VideoCrafter/ckpt```. 
+1. Download the original VideoCrafter checkpoints from the [repository](https://github.com/AILab-CVC/VideoCrafter) and put it in ```examples/VideoCrafter/ckpt/original```,or  download our VideoCrafter-CIL from [here](https://huggingface.co/GraceZhao/VideoCrafter1-naive-finetune) and put it in ```examples/VideoCrafter/ckpt/finetuned```.Download the initial noise in the above table and put them in ```examples/VideoCrafter/ckpt```. 
 2. Run the following commands:
 
 ```
@@ -230,13 +230,13 @@ Similar to the inference strategy, we finetune the baselines based on the reposi
     DynamiCrafter
   </td>
   <td>
-    <img src=assets\conditionalImg\6.png width="250">
+    <img src=assets/conditionalImg/6.png width="250">
   </td>
   <td>
-    <img src=assets\DC\6base.gif width="250">
+    <img src=assets/DC/6base.gif width="250">
   </td>
   <td>
-    <img src=assets\DC\6_sample0.gif width="250">
+    <img src=assets/DC/6_sample0.gif width="250">
   </td>
   </tr>
 
@@ -246,13 +246,13 @@ Similar to the inference strategy, we finetune the baselines based on the reposi
     VideoCrafter
   </td>
   <td>
-    <img src=assets\conditionalImg\30.png width="250">
+    <img src=assets/conditionalImg/30.png width="250">
   </td>
   <td>
-    <img src=assets\VC\30base.gif width="250">
+    <img src=assets/VC/30base.gif width="250">
   </td>
   <td>
-    <img src=assets\VC\30_sample0.gif width="250">
+    <img src=assets/VC/30_sample0.gif width="250">
   </td>
   </tr>
    <tr>
@@ -260,19 +260,19 @@ Similar to the inference strategy, we finetune the baselines based on the reposi
     SVD
   </td>
   <td>
-    <img src=assets\conditionalImg\41.png width="250">
+    <img src=assets/conditionalImg/41.png width="250">
   </td>
   <td>
-    <img src=assets\SVD\41base.gif width="250">
+    <img src=assets/SVD/41base.gif width="250">
   </td>
   <td>
-    <img src=assets\SVD\41_sample0.gif width="250">
+    <img src=assets/SVD/41_sample0.gif width="250">
   </td>
   </tr>
 </table >
 
 ### DynamiCrafter
-1. Download the DynamiCrafter checkpoints from the [repository](https://github.com/Doubiiu/DynamiCrafter) and put them in ```examples/DynamiCrafter/ckpt/```.
+1. Download the DynamiCrafter checkpoints from the [repository](https://github.com/Doubiiu/DynamiCrafter) and put them in ```examples/DynamiCrafter/ckpt/original```.
 2. Run the following commands:
 ```
 cd examples/DynamiCrafter
@@ -292,16 +292,16 @@ The effect of ```beta_m```is as follows:
     </tr>
     <tr>
     <td>
-      <img src=assets\conditionalImg\doggy.jpg width="150">
+      <img src=assets/conditionalImg/doggy.jpg width="150">
     </td>
         <td>
-      <img src=assets\effect_of_betam\25.gif width="150">
+      <img src=assets/effect_of_betam/25.gif width="150">
     </td>
         <td>
-      <img src=assets\effect_of_betam\100.gif width="150">
+      <img src=assets/effect_of_betam/100.gif width="150">
     </td>
         <td>
-      <img src=assets\effect_of_betam\700.gif width="150">
+      <img src=assets/effect_of_betam/700.gif width="150">
     </td>
     </tr>
 </table >
@@ -317,16 +317,16 @@ The effect of ```a``` is as follows:
     </tr>
     <tr>
     <td>
-      <img src=assets\conditionalImg\doggy.jpg width="150">
+      <img src=assets/conditionalImg/doggy.jpg width="150">
     </td>
         <td>
-      <img src=assets\effect_of_betam\100.gif width="150">
+      <img src=assets/effect_of_betam/100.gif width="150">
     </td>
         <td>
-      <img src=assets\effect_of_a\1.gif width="150">
+      <img src=assets/effect_of_a/1.gif width="150">
     </td>
         <td>
-      <img src=assets\effect_of_a\01.gif width="150">
+      <img src=assets/effect_of_a/01.gif width="150">
     </td>
     </tr>
 </table >
@@ -334,13 +334,13 @@ The effect of ```a``` is as follows:
 Lower a correspond to more dynamic motion and lower temporal consistency and image alignment.
 
 ### SVD
-1. Download the SVD checkpoints from the [repository](https://github.com/Doubiiu/SVD) and put them in ```examples/SVD/ckpt/pretrained/stable-video-diffusion-img2vid```.
+1. Download the SVD checkpoints from the [repository](https://github.com/Stability-AI/generative-models) and put them in ```examples/SVD/ckpt/pretrained/stable-video-diffusion-img2vid```;
 2. Run the following commands:
 ```
 cd examples/SVD
 sh train.sh
 ```
-The relevant parameters in `SVD/config/train.yaml`for our strategy are explained as follows: 
+The relevant parameters in `examples/SVD/config/train.yaml`for our strategy are explained as follows: 
 
 * ```beta_m```: the maximum noise level.  Higher beta_m correspond to more dynamic motion and lower temporal consistency and image alignment. 
 * ```a```:  the exponent of center of the distribution: $\mu(t)=2t^a-1$, where $a > 0$. Lower $a$ correspond to more dynamic motion and lower temporal consistency and image alignment.
@@ -348,7 +348,7 @@ The relevant parameters in `SVD/config/train.yaml`for our strategy are explained
 Note that original SVD first add noise on conditional image and then feed it into VAE. Here we first feed the conditional image into VAE and then add noise on the conditional latents.
 
 ### VideoCrafter1
-1. Download the VideoCrafter checkpoints from the [repository](https://github.com/Doubiiu/VideoCrafter) and put them in ```examples/VideoCrafter/ckpt/```.
+1. Download the VideoCrafter checkpoints from the [repository](https://github.com/AILab-CVC/VideoCrafter) and put them in ```examples/VideoCrafter/original/ckpt/```.
 2. Run the following commands:
 ```
 cd examples/VideoCrafter
@@ -386,5 +386,5 @@ in Image-to-Video Diffusion Model},
 This implementation is based on the following work:
 * [DynamiCrafter: Animating Open-domain Images with Video Diffusion Priors](https://doubiiu.github.io/projects/DynamiCrafter)
 * [Stable Video Diffusion: Scaling Latent Video Diffusion Models to Large Datasets](https://github.com/Stability-AI/generative-models)
-* [VideoCrafter1: Open Diffusion Models for High-Quality Video Generation](https://github.com/AILab-CVC/VideoCrafter)\
+* [VideoCrafter1: Open Diffusion Models for High-Quality Video Generation](https://github.com/AILab-CVC/VideoCrafter/)
 Thanks to the authors for sharing their code and models.

@@ -16,7 +16,7 @@ train_data:
   sample_n_frames: 16  
 
 output_dir: "results/train"
-pretrained_model_path: "ckpt/pretrained/stable-video-diffusion-img2vid/"
+pretrained_model_path: "./ckpt/pretrained/stable-video-diffusion-img2vid/"
 resume_path: "" 
 
 debug: False

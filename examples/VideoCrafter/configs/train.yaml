@@ -1,5 +1,5 @@
 model:
-  pretrained_checkpoint: ckpt/model.ckpt
+  pretrained_checkpoint: ckpt/original/model.ckpt
   base_learning_rate: 1.0e-05
   scale_lr: False
   target: lvdm.models.ddpm3d_videocrafter_ve.LatentVisualDiffusion
