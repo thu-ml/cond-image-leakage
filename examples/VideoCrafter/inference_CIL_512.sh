@@ -1,4 +1,4 @@
-ckpt='ckpt/model.ckpt' # path to your checkpoint
+ckpt='ckpt/finetuned/model.ckpt' # path to your checkpoint
 config='configs/inference_i2v_512_v1.0.yaml'
 
 prompt_file="prompts/512/test_prompts.txt" # file for 
