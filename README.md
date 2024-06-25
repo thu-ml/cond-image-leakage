@@ -3,7 +3,7 @@
 <!-- ![](./assets/logo_long_dark.png#gh-dark-mode-only=100x20) -->
 <div align="center">
 
- <a href=''><img src='https://img.shields.io/badge/arXiv-2405.12190-b31b1b.svg'></a> &nbsp;
+ <a href='https://arxiv.org/abs/2406.15735'><img src='https://img.shields.io/badge/arXiv-2406.15735-b31b1b.svg'></a> &nbsp;
  <a href='https://cond-image-leak.github.io/'><img src='https://img.shields.io/badge/Project-Page-Green'></a> &nbsp;
  <a href=''><img src='https://img.shields.io/badge/Zhihu-Page-Blue'></a> &nbsp;
 
@@ -377,7 +377,7 @@ If you find this repository helpful, please cite as:
   title={Identifying and Solving Conditional Image Leakage
 in Image-to-Video Diffusion Model},
   author={Min Zhao, Hongzhou Zhu, Chendong Xiang, Kaiwen Zheng, Chongxuan Li and Jun Zhu},
-  journal={arXiv preprint arXi:},
+  journal={arXiv preprint arXiv:2406.15735},
   year={2024}
 }
 ```
