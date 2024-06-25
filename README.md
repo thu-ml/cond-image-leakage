@@ -20,7 +20,7 @@ Diffusion models have obtained substantial progress in image-to-video (I2V) gene
 ![overview](assets/overview.png)
 
 ## ✅ To do list:
-- [x] __[2024.06.24]__: Release code, models and project page.
+- [x] __[2024.06.25]__: Release code, models and project page.
 - [ ] Release the models without watermarks and in other resolutions.
 - [ ] Applying our strategy on [Vidu](https://arxiv.org/abs/2405.04233), a transformer-based text-to-video diffusion model.
 
@@ -59,14 +59,14 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
 
 | Model                     | Resolution   | Initial Noise                                                                           |
 |:--------------------------|:-------------|:----------------------------------------------------------------------------------------|
-| DynamiCrafter     | 256x256      | [Initial Noise]() |
-| DynamiCrafter     | 320x512      | [Initial Noise]() |
-| DynamiCrafter     | 576x1024     | [Initial Noise]() |
-| VideoCrafter      | 256x256      | [Initial Noise]()  |
-| VideoCrafter      | 320x512      | [Initial Noise]()  |
-| VideoCrafter      | 576x1024     | [Initial Noise]()  |
-| SVD                       | 320 x 512   | [Initial Noise]()      |
-| SVD                       | 576 x 1024   | [Initial Noise]()      |
+| DynamiCrafter     | 256x256      | [Initial Noise](https://huggingface.co/GraceZhao/Analytic-Init) |
+| DynamiCrafter     | 320x512      | [Initial Noise](https://huggingface.co/GraceZhao/Analytic-Init) |
+| DynamiCrafter     | 576x1024     | [Initial Noise](https://huggingface.co/GraceZhao/Analytic-Init) |
+| VideoCrafter      | 256x256      | [Initial Noise](https://huggingface.co/GraceZhao/Analytic-Init)  |
+| VideoCrafter      | 320x512      | [Initial Noise](https://huggingface.co/GraceZhao/Analytic-Init)  |
+| VideoCrafter      | 576x1024     | [Initial Noise](https://huggingface.co/GraceZhao/Analytic-Init)  |
+| SVD                       | 320 x 512   | [Initial Noise](https://huggingface.co/GraceZhao/Analytic-Init)      |
+| SVD                       | 576 x 1024   | [Initial Noise](https://huggingface.co/GraceZhao/Analytic-Init)      |
 ### 😄 Example Results
 <table class="center">
     <tr style="font-weight: bolder;text-align:center;">
