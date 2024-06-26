@@ -139,7 +139,7 @@ def main(
 
    
     scheduler_path=f'./schedulers/scheduler_config{sigma_max}.json' 
-    checkpoint_path = os.path.join(checkpoint_root,'checkpoints', f'checkpoint-step-{int(step)}.ckpt') if not original_svd else None
+    checkpoint_path = os.path.join(checkpoint_root, f'checkpoint-step-{int(step)}.ckpt') if not original_svd else None
    
     if checkpoint_path is not None and not os.path.exists(checkpoint_path):
         raise EOFError(f'the checkpoint {checkpoint_path} is nokbit existing')
