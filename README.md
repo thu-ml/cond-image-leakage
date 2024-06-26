@@ -50,7 +50,7 @@ pip install -r requirements.txt
 ```
 
 ##  ☀️ Dataset
-Download the WebVid dataset from [here](https://github.com/m-bain/webvid), where we use Webvid-2M subset. Put ```.csv``` file in  ```examples/dataset/results_2M_train.csv``` and video data in ```examples/dataset/```. We use the raw data without any filters.
+Download the WebVid dataset from [here](https://github.com/m-bain/webvid), where we use Webvid-2M subset. Put ```.csv``` file in  ```examples/dataset/results_2M_train.csv``` and video data in ```examples/dataset/```. **We use the raw data without any filters.**
 ## 🧊 Inference Strategy
 
 We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiCrafter) and [VideoCrafter1](https://github.com/AILab-CVC/VideoCrafter) and implement  [SVD](https://github.com/Stability-AI/generative-models) by ourselves. We apply our plug and plug-and-play strategies on them.
