@@ -160,6 +160,7 @@ def get_latent_z(model, videos):
 def image_guided_synthesis_analytic(model, prompts, videos, noise_shape, n_samples=1, ddim_steps=50, ddim_eta=1., \
                         unconditional_guidance_scale=1.0, cfg_img=None, fs=None, text_input=False, multiple_cond_cfg=False, loop=False, interp=False, timestep_spacing='uniform_trailing', guidance_rescale=0.0,M=1000,analytic_init_path=None,whether_analytic_init=1,**kwargs):
 
+    # Analytic-Init:load initial noise 
     dic=torch.load(analytic_init_path)
     expectation_X_0=dic["Expectation_X0"]
     tr_Cov_d=dic["Tr_Cov_d"]

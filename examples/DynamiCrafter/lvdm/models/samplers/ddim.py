@@ -85,7 +85,6 @@ class DDIMSampler(object):
                timestep_spacing='uniform_trailing',# for starting from last timestep
                guidance_rescale=0.0,
                ddpm_from=1000,
-               mask_nodes=0,
                **kwargs
                ):
         
@@ -131,8 +130,6 @@ class DDIMSampler(object):
                                                     precision=precision,
                                                     fs=fs,
                                                     guidance_rescale=guidance_rescale,
-                                                    ddpm_from=ddpm_from,
-                                                    mask_nodes=mask_nodes,
                                                     **kwargs)
         return samples, intermediates
 
@@ -142,7 +139,7 @@ class DDIMSampler(object):
                       callback=None, timesteps=None, quantize_denoised=False,
                       mask=None, x0=None, img_callback=None, log_every_t=100,
                       temperature=1., noise_dropout=0., score_corrector=None, corrector_kwargs=None,
-                      unconditional_guidance_scale=1., unconditional_conditioning=None, verbose=True,precision=None,fs=None,guidance_rescale=0.0,ddpm_from=1000,mask_nodes=0,
+                      unconditional_guidance_scale=1., unconditional_conditioning=None, verbose=True,precision=None,fs=None,guidance_rescale=0.0,
                       **kwargs):
         device = self.model.betas.device        
         b = shape[0]
@@ -173,42 +170,39 @@ class DDIMSampler(object):
         clean_cond = kwargs.pop("clean_cond", False)
         # cond_copy, unconditional_conditioning_copy = copy.deepcopy(cond), copy.deepcopy(unconditional_conditioning)
         for i, step in enumerate(iterator):
-            if i < 0 :
-                pass
-            else: 
-                index = total_steps - i - 1
-                ts = torch.full((b,), step, device=device, dtype=torch.long)
+            index = total_steps - i - 1
+            ts = torch.full((b,), step, device=device, dtype=torch.long)
 
-                ## use mask to blend noised original latent (img_orig) & new sampled latent (img)
-                if mask is not None:
-                    assert x0 is not None
-                    if clean_cond:
-                        img_orig = x0
-                    else:
-                        img_orig = self.model.q_sample(x0, ts)  # TODO: deterministic forward pass? <ddim inversion>
-                    img = img_orig * mask + (1. - mask) * img # keep original & modify use img
+            ## use mask to blend noised original latent (img_orig) & new sampled latent (img)
+            if mask is not None:
+                assert x0 is not None
+                if clean_cond:
+                    img_orig = x0
+                else:
+                    img_orig = self.model.q_sample(x0, ts)  # TODO: deterministic forward pass? <ddim inversion>
+                img = img_orig * mask + (1. - mask) * img # keep original & modify use img
 
 
 
 
-                outs = self.p_sample_ddim(img, cond, ts, index=index, use_original_steps=ddim_use_original_steps,
-                                        quantize_denoised=quantize_denoised, temperature=temperature,
-                                        noise_dropout=noise_dropout, score_corrector=score_corrector,
-                                        corrector_kwargs=corrector_kwargs,
-                                        unconditional_guidance_scale=unconditional_guidance_scale,
-                                        unconditional_conditioning=unconditional_conditioning,
-                                        mask=mask,x0=x0,fs=fs,guidance_rescale=guidance_rescale,
-                                        **kwargs)
-                
-
-                img, pred_x0 = outs
-                if callback: callback(i)
-                if img_callback: img_callback(pred_x0, i)
-
-                if index % log_every_t == 0 or index == total_steps - 1:
-                    intermediates['x_inter'].append(img)
-                    intermediates['pred_x0'].append(pred_x0)
+            outs = self.p_sample_ddim(img, cond, ts, index=index, use_original_steps=ddim_use_original_steps,
+                                    quantize_denoised=quantize_denoised, temperature=temperature,
+                                    noise_dropout=noise_dropout, score_corrector=score_corrector,
+                                    corrector_kwargs=corrector_kwargs,
+                                    unconditional_guidance_scale=unconditional_guidance_scale,
+                                    unconditional_conditioning=unconditional_conditioning,
+                                    mask=mask,x0=x0,fs=fs,guidance_rescale=guidance_rescale,
+                                    **kwargs)
             
+
+            img, pred_x0 = outs
+            if callback: callback(i)
+            if img_callback: img_callback(pred_x0, i)
+
+            if index % log_every_t == 0 or index == total_steps - 1:
+                intermediates['x_inter'].append(img)
+                intermediates['pred_x0'].append(pred_x0)
+        
         return img, intermediates['pred_x0']
 
     @torch.no_grad()
