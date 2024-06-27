@@ -321,10 +321,6 @@ def run_inference(args, gpu_num, gpu_no):
             else:
                 videos = videos.unsqueeze(0).to("cuda")
 
-            
-            
-           
-
             batch_samples = image_guided_synthesis_analytic(model, prompts, videos, noise_shape, args.n_samples, args.ddim_steps, args.ddim_eta, \
                             args.unconditional_guidance_scale, args.cfg_img, args.frame_stride, args.text_input, args.multiple_cond_cfg, args.loop, args.interp, args.timestep_spacing, args.guidance_rescale
                             ,M=args.M,analytic_init_path=args.analytic_init_path,whether_analytic_inti=args.whether_analytic_init)
@@ -334,7 +330,6 @@ def run_inference(args, gpu_num, gpu_no):
                 ## samples : [n_samples,c,t,h,w]
                 prompt = prompts[nn]
                 filename = filenames[nn]
-                # save_results(prompt, samples, filename, fakedir, fps=8, loop=args.loop)
                 save_results_seperate(prompt, samples, filename, fakedir, fps=8, loop=args.loop,M=args.M)
             
     print(f"Saved in {args.savedir}. Time used: {(time.time() - start):.2f} seconds")
