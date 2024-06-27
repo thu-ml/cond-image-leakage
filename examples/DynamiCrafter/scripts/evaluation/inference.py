@@ -62,7 +62,7 @@ def load_prompts(prompt_file):
 
 def get_videos_from_file(data_dir,index_begin,index_end, video_size, video_frames):
     transform = transforms.Compose([
-        transforms.Resize(video_size),
+        transforms.Resize(min(video_size)),
         transforms.CenterCrop(video_size),
         transforms.ToTensor(),
         transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))])
@@ -263,10 +263,6 @@ def image_guided_synthesis_analytic(model, prompts, videos, noise_shape, n_sampl
    
     return batch_variants.permute(1, 0, 2, 3, 4, 5)
 
-
-
-
-
 def run_inference(args, gpu_num, gpu_no):
     ## model config
     config = OmegaConf.load(args.config)
@@ -303,10 +299,8 @@ def run_inference(args, gpu_num, gpu_no):
     num_samples = len(prompt_list)
     samples_split = num_samples // gpu_num
     print('Prompts testing [rank:%d] %d/%d samples loaded.'%(gpu_no, samples_split, num_samples))
-    #indices = random.choices(list(range(0, num_samples)), k=samples_per_device)
     indices = list(range(samples_split*gpu_no, samples_split*(gpu_no+1)))
     prompt_list_rank = [prompt_list[i] for i in indices]
-    #data_list_rank = [data_list[i] for i in indices]
     filename_list_rank = [filename_list[i] for i in indices]
 
     start = time.time()
