@@ -8,13 +8,13 @@ import copy
 
 
 class DDIMSampler(object):
-    def __init__(self, model, ddpm_num_timesteps_for_inference=1000, schedule="linear",**kwargs):
+    def __init__(self, model, schedule="linear",**kwargs):
         super().__init__()
         self.model = model
         self.ddpm_num_timesteps = model.num_timesteps
         self.schedule = schedule
         self.counter = 0
-        self.ddpm_num_timesteps_for_inference=ddpm_num_timesteps_for_inference
+
         
     def register_buffer(self, name, attr):
         if type(attr) == torch.Tensor:
