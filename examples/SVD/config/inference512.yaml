@@ -23,6 +23,6 @@ num_step:
 noise_aug_strength:
   0
 sigma_max:
-  100
+  700
 analytic_path:
   ./ckpt/initial_noise_512.pt"
