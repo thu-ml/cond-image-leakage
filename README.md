@@ -146,7 +146,7 @@ Note that ```M=1000, whether_analytic_init=0``` is the baseline.
 The effect of start time ```M ``` is as follows:
 <table class="center">
     <tr style="font-weight: bolder;text-align:center;">
-        <td>Conditional Image</td>
+        <td>Conditional image</td>
         <td>M=1.00T</td>
         <td>M=0.94T</td>
         <td>M=0.90T</td>
@@ -155,7 +155,7 @@ The effect of start time ```M ``` is as follows:
     </tr>
     <tr>
     <td>
-      <img src=assets/conditionalImg/sunflower.png width="150">
+      <img src=assets/conditionalImg/sunflower.gif width="150">
     </td>
         <td>
       <img src=assets/effect_of_M/1000.gif width="150">
