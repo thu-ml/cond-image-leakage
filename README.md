@@ -72,7 +72,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
 <table class="center">
     <tr style="font-weight: bolder;text-align:center;">
         <td>Model</td>
-        <td>Conditional Image</td>
+        <td>Conditional image</td>
         <td>Standard inference</td>
         <td>+ Our inference strategy</td>
     </tr>
@@ -81,7 +81,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
     DynamiCrafter320x512 
   </td>
   <td>
-    <img src=assets/conditionalImg/15.png width="250">
+    <img src=assets/conditionalImg/15.gif width="250">
   </td>
   <td>
     <img src=assets/DC/15base.gif width="250">
@@ -97,7 +97,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
     VideoCrafter320x512 
   </td>
   <td>
-    <img src=assets/conditionalImg/5.png width="250">
+    <img src=assets/conditionalImg/5.gif width="250">
   </td>
   <td>
     <img src=assets/VC/5base.gif width="250">
@@ -111,7 +111,7 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
     SVD 576x1024
   </td>
   <td>
-    <img src=assets/conditionalImg/39.png width="250">
+    <img src=assets/conditionalImg/39.gif width="250">
   </td>
   <td>
     <img src=assets/SVD/39base.gif width="250">
@@ -221,7 +221,7 @@ Similar to the inference strategy, we finetune the baselines based on the reposi
 <table class="center">
     <tr style="font-weight: bolder;text-align:center;">
         <td>Model</td>
-        <td>Conditional Image</td>
+        <td>Conditional image</td>
         <td>Finetuned-Baseline</td>
         <td>+ Our training strategy</td>
     </tr>
@@ -230,7 +230,7 @@ Similar to the inference strategy, we finetune the baselines based on the reposi
     DynamiCrafter
   </td>
   <td>
-    <img src=assets/conditionalImg/6.png width="250">
+    <img src=assets/conditionalImg/6.gif width="250">
   </td>
   <td>
     <img src=assets/DC/6base.gif width="250">
@@ -246,7 +246,7 @@ Similar to the inference strategy, we finetune the baselines based on the reposi
     VideoCrafter
   </td>
   <td>
-    <img src=assets/conditionalImg/30.png width="250">
+    <img src=assets/conditionalImg/30.gif width="250">
   </td>
   <td>
     <img src=assets/VC/30base.gif width="250">
@@ -260,7 +260,7 @@ Similar to the inference strategy, we finetune the baselines based on the reposi
     SVD
   </td>
   <td>
-    <img src=assets/conditionalImg/41.png width="250">
+    <img src=assets/conditionalImg/41.gif width="250">
   </td>
   <td>
     <img src=assets/SVD/41base.gif width="250">
