@@ -44,7 +44,7 @@ def sampling(
     scheduler = EulerDiscreteScheduler.from_config(scheduler_path)
     
     if checkpoint_path is not None:
-        unet = UNetSpatioTemporalConditionModel.from_pretrained(pretrained_model_path, subfolder="unet")
+        unet = UNetSpatioTemporalConditionModel.from_pretrained(pretrained_model_path, subfolder="unet", torch_dtype=torch.float16)
         ema_unet = EMAModel(unet)
         load_model(unet, ema_unet, filename=checkpoint_path)
         print(f'the model is loaded from {checkpoint_path}')
