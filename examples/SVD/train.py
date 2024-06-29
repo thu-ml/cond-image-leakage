@@ -164,11 +164,7 @@ def main(
         pixel_values = batch["pixel_values"].to(local_rank)
 
         latents = pixel2latent(pixel_values, vae)
-
-        # noise argumentation
-        noisy_condition, noise_aug_strength = add_noise(pixel_values[:, 0, :, :, :].unsqueeze(dim=1), P_mean=noise_scheduler_kwargs.condition_P_mean, P_std=noise_scheduler_kwargs.condition_P_std)
-        noisy_condition_latents = pixel2latent(noisy_condition, vae)/vae.config.scaling_factor
-
+        
         # CLIP image embeddings
         encoder_hidden_states = encode_image(pixel_values[:, 0, :, :, :].float(), feature_extractor, image_encoder)
         # Predict the noise residual and compute loss
