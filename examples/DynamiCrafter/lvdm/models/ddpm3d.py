@@ -52,7 +52,7 @@ def get_alpha_s_and_sigma_s(t, a=5,beta_m=100):
 __conditioning_keys__ = {'concat': 'c_concat',
                          'crossattn': 'c_crossattn',
                          'adm': 'y'}
-BS=2
+
 class DDPM(pl.LightningModule):
     # classic DDPM with Gaussian diffusion, in image space
     def __init__(self,
@@ -1067,7 +1067,7 @@ class LatentVisualDiffusion(LatentDiffusion):
                 param.requires_grad = False
 
     def shared_step(self, batch, random_uncond, **kwargs):
-        t = torch.randint(0, self.num_timesteps, (BS,), device=self.device).long()
+        t = torch.randint(0, self.num_timesteps, (batch['fps'].shape[0],), device=self.device).long()
         x, c, fs = self.get_batch_input(batch, random_uncond=random_uncond, t=t,return_fs=True)
         kwargs.update({"fs": fs.long()})
         loss, loss_dict = self(x, c,t, **kwargs)
@@ -1112,7 +1112,7 @@ class LatentVisualDiffusion(LatentDiffusion):
 
         _, sigma_s = get_alpha_s_and_sigma_s(t/1000.0, self.a,self.beta_m)
         condition_noise = torch.randn_like(img_emb)
-        sigma_s = sigma_s.reshape([BS, 1, 1]).to(x.device)
+        sigma_s = sigma_s.reshape([img_emb.shape[0], 1, 1]).to(x.device)
         img_emb = img_emb + sigma_s * condition_noise
         
         if self.model.conditioning_key == 'hybrid':
