@@ -365,7 +365,7 @@ Naive fine-tuning and ours were trained under the same settings for fair compari
 
 | Model                   | Naive Fine-Tuning                                                                         | ours on Webvid                                                                    |
 |:------------------------|:---------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|
-| DynamiCrafter           | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-naive-finetune)      | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512) |
+| DynamiCrafter           | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-naive-finetune)      | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512) [576x1024](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-1024) |
 | SVD                     | [320x512](https://huggingface.co/GraceZhao/SVD-naive-finetune) | [320x512](https://huggingface.co/GraceZhao/SVD-CIL-512) |
 | VideoCrafter1           | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-naive-finetune)     | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-CIL-512) |
 
