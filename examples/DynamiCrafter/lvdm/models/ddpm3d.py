@@ -101,7 +101,7 @@ class DDPM(pl.LightningModule):
         if isinstance(self.image_size, int):
             self.image_size = [self.image_size, self.image_size]
         self.use_positional_encodings = use_positional_encodings
-        self.model = DiffusionWrapper(unet_config, conditioning_key,condition_type,a,beta_m)
+        self.model = DiffusionWrapper(unet_config, conditioning_key,a,beta_m)
         #count_params(self.model, verbose=True)
         self.use_ema = use_ema
         self.rescale_betas_zero_snr = rescale_betas_zero_snr
@@ -1271,13 +1271,12 @@ class DiffusionWrapper(pl.LightningModule):
             out = self.diffusion_model(x, t, context=cc, **kwargs)
         elif self.conditioning_key == 'hybrid':
             # add noise on condition
-            if self.condition_type is not None:
-                batch_size=c_concat[0].shape[0]
-                _, sigma_s = get_alpha_s_and_sigma_s( t/1000.0, self.a,self.beta_m)
-                condition_noise = torch.randn_like(c_concat[0])
-                sigma_s = sigma_s.reshape([batch_size, 1, 1, 1, 1]).to(x.device)
-                c_concat[0] = c_concat[0] + sigma_s * condition_noise
-                
+            batch_size=c_concat[0].shape[0]
+            _, sigma_s = get_alpha_s_and_sigma_s( t/1000.0, self.a,self.beta_m)
+            condition_noise = torch.randn_like(c_concat[0])
+            sigma_s = sigma_s.reshape([batch_size, 1, 1, 1, 1]).to(x.device)
+            c_concat[0] = c_concat[0] + sigma_s * condition_noise
+            
             xc = torch.cat([x] + c_concat, dim=1)
             cc = torch.cat(c_crossattn, 1)
             out = self.diffusion_model(xc, t, context=cc, **kwargs)
