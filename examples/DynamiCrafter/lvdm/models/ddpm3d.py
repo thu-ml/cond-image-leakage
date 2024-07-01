@@ -1110,7 +1110,7 @@ class LatentVisualDiffusion(LatentDiffusion):
         img_emb = self.embedder(img) ## b l c
         img_emb = self.image_proj_model(img_emb)
 
-        _, sigma_s = get_alpha_s_and_sigma_s(t/1000.0, self.a,self.beta_m)
+        __, sigma_s = get_alpha_s_and_sigma_s(t/1000.0, self.model.a,self.model.beta_m)
         condition_noise = torch.randn_like(img_emb)
         sigma_s = sigma_s.reshape([img_emb.shape[0], 1, 1]).to(x.device)
         img_emb = img_emb + sigma_s * condition_noise
