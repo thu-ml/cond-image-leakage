@@ -135,7 +135,7 @@ sh inference_512.sh
 # for our DynamiCrafter-CIL with 320x512 resolution
 sh inference_CIL_512.sh
 
-# for our DynamiCrafter-CIL with 576x`024 resolution
+# for our DynamiCrafter-CIL with 576x1024 resolution
 sh inference_CIL_1024.sh
 ```
 
