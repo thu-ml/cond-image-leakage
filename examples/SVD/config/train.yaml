@@ -9,8 +9,8 @@ noise_scheduler_kwargs:
   condition_P_std: 1.6
 
 train_data:
-  file_path: '../dataset'
-  video_folder: '../dataset/results_2M_train.csv'
+  file_path: '../dataset/results_2M_train.csv'
+  video_folder: '../dataset'
   sample_size:     320,512
   fps:   3
   sample_n_frames: 16  
