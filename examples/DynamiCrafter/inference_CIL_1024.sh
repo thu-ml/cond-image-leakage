@@ -35,6 +35,6 @@ scripts/evaluation/ddp_wrapper.py \
 --guidance_rescale 0.7 \
 --perframe_ae \
 --M ${M} \
---whether_analytic_init 1 \
+--whether_analytic_init 0 \
 --analytic_init_path 'ckpt/initial_noise_1024.pt' 
  
