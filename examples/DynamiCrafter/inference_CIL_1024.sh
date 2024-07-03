@@ -2,7 +2,7 @@ seed=123
 
 name=inference
 
-ckpt=/mnt/vepfs/zhuhongzhou/Fusion/newCrafter/DynamiCrafter-CIL-1024/timenoise.ckpt # path to your checkpoint
+ckpt=ckpt/finetuned/timenoise.ckpt # path to your checkpoint
 config=configs/inference_1024_v1.0.yaml
 
 prompt_dir=prompts/1024 # file for prompts, which includes images and their corresponding text
