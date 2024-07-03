@@ -32,21 +32,26 @@ from lvdm.common import (
     exists,
     default
 )
-def logit_normal_sampler(m, s=1, beta_m=1, sample_num=1000000):
+'''
+Sampler for the logit-normal distribution.
+'''
+def logit_normal_sampler(m, s=1, beta_m=100, sample_num=1000000):
     y_samples = torch.randn(sample_num) * s + m
     x_samples = beta_m * (torch.exp(y_samples) / (1 + torch.exp(y_samples)))
     return x_samples
-
-
+'''
+the \mu(t) function
+'''
 def mu_t(t,a=5, mu_max=1):
     t = t.to('cpu')
     return 2 * mu_max * t ** a - mu_max
-   
-def get_alpha_s_and_sigma_s(t, a=5,beta_m=100):
+'''
+get beta_s
+'''  
+def get_beta_s(t, a=5,beta_m=100):
     mu = mu_t(t, a=a)
-    sigma_s = logit_normal_sampler(m=mu, beta_m=beta_m,sample_num=t.shape[0])
-    alpha_s = torch.sqrt(1 - sigma_s ** 2)
-    return alpha_s, sigma_s
+    beta_s = logit_normal_sampler(m=mu, beta_m=beta_m,sample_num=t.shape[0])
+    return beta_s
 
 
 __conditioning_keys__ = {'concat': 'c_concat',
@@ -1109,11 +1114,11 @@ class LatentVisualDiffusion(LatentDiffusion):
         ## img: b c h w
         img_emb = self.embedder(img) ## b l c
         img_emb = self.image_proj_model(img_emb)
-
-        __, sigma_s = get_alpha_s_and_sigma_s(t/1000.0, self.model.a,self.model.beta_m)
+        # ------------------ TimeNoise for CLIP ----------------------
+        beta_s = get_beta_s(t/1000.0, self.model.a,self.model.beta_m)
         condition_noise = torch.randn_like(img_emb)
-        sigma_s = sigma_s.reshape([img_emb.shape[0], 1, 1]).to(x.device)
-        img_emb = img_emb + sigma_s * condition_noise
+        beta_s = beta_s.reshape([img_emb.shape[0], 1, 1]).to(x.device)
+        img_emb = img_emb + beta_s * condition_noise
         
         if self.model.conditioning_key == 'hybrid':
             ## simply repeat the cond_frame to match the seq_len of z
@@ -1270,12 +1275,12 @@ class DiffusionWrapper(pl.LightningModule):
             cc = torch.cat(c_crossattn, 1)
             out = self.diffusion_model(x, t, context=cc, **kwargs)
         elif self.conditioning_key == 'hybrid':
-            # add noise on condition
+            # ---- TimeNoise for concat conditional images ----
             batch_size=c_concat[0].shape[0]
-            _, sigma_s = get_alpha_s_and_sigma_s( t/1000.0, self.a,self.beta_m)
+            beta_s = get_beta_s( t/1000.0, self.a,self.beta_m)
             condition_noise = torch.randn_like(c_concat[0])
-            sigma_s = sigma_s.reshape([batch_size, 1, 1, 1, 1]).to(x.device)
-            c_concat[0] = c_concat[0] + sigma_s * condition_noise
+            beta_s = beta_s.reshape([batch_size, 1, 1, 1, 1]).to(x.device)
+            c_concat[0] = c_concat[0] + beta_s * condition_noise
             
             xc = torch.cat([x] + c_concat, dim=1)
             cc = torch.cat(c_crossattn, 1)
