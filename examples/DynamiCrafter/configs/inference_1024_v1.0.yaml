@@ -1,5 +1,5 @@
 model:
-  target: lvdm.models.ddpm3d.LatentVisualDiffusion
+  target: lvdm.models.ddpm3dInference.LatentVisualDiffusion
   params:
     rescale_betas_zero_snr: True
     parameterization: "v"
