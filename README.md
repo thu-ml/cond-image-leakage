@@ -366,7 +366,7 @@ The relevant parameters in ```train.sh``` for our strategy are explained as foll
 ### 🎒 Checkpoints
 Naive fine-tuning and ours were trained under the same settings for fair comparison. In the future, we will release the model without watermark.
 
-| Model                   | Naive Fine-Tuning                                                                         | Ours                                                                    |
+| Model                   | Naive Fine-Tuning                                                                         | Our TimeNoise                                                                    |
 |:------------------------|:---------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|
 | DynamiCrafter           | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-naive-finetune)      | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512) [576x1024](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-1024) |
 | SVD                     | [320x512](https://huggingface.co/GraceZhao/SVD-naive-finetune) | [320x512](https://huggingface.co/GraceZhao/SVD-CIL-512) |
