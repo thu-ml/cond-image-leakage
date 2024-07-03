@@ -366,21 +366,20 @@ The relevant parameters in ```train.sh``` for our strategy are explained as foll
 ### 🎒 Checkpoints
 Naive fine-tuning and ours were trained under the same settings for fair comparison. In the future, we will release the model without watermark.
 
-| Model                   | Naive Fine-Tuning                                                                         | Our TimeNoise                                                                    |
-|:------------------------|:---------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|
-| DynamiCrafter           | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-naive-finetune)      | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512) [576x1024](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-1024) |
-| SVD                     | [320x512](https://huggingface.co/GraceZhao/SVD-naive-finetune) | [320x512](https://huggingface.co/GraceZhao/SVD-CIL-512) |
-| VideoCrafter1           | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-naive-finetune)     | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-CIL-512) |
+| Model                   | Naive Fine-Tuning                                                                         | Ours on Webvid                                                                    |Watermark-free                                                                    
+|:------------------------|:---------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|
+| DynamiCrafter           | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-naive-finetune)      | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512) |[320x512](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512-no-watermark) [576x1024](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-1024)|
+| SVD                     | [320x512](https://huggingface.co/GraceZhao/SVD-naive-finetune) | [320x512](https://huggingface.co/GraceZhao/SVD-CIL-512) ||
+| VideoCrafter1           | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-naive-finetune)     | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-CIL-512) ||
 
 
 
 ## 😄 Citation
 If you find this repository helpful, please cite as:
 ```bib
-@article{zhao2024Identifying,
-  title={Identifying and Solving Conditional Image Leakage
-in Image-to-Video Diffusion Model},
-  author={Min Zhao, Hongzhou Zhu, Chendong Xiang, Kaiwen Zheng, Chongxuan Li and Jun Zhu},
+@article{zhao2024identifying,
+  title={Identifying and Solving Conditional Image Leakage in Image-to-Video Diffusion Model},
+  author={Zhao, Min and Zhu, Hongzhou and Xiang, Chendong and Zheng, Kaiwen and Li, Chongxuan and Zhu, Jun},
   journal={arXiv preprint arXiv:2406.15735},
   year={2024}
 }
