@@ -159,20 +159,20 @@ def get_latent_z(model, videos):
 def image_guided_synthesis_analytic(model, prompts, videos, noise_shape, n_samples=1, ddim_steps=50, ddim_eta=1., \
                         unconditional_guidance_scale=1.0, cfg_img=None, fs=None, text_input=False, multiple_cond_cfg=False, loop=False, interp=False, timestep_spacing='uniform_trailing', guidance_rescale=0.0,M=1000,analytic_init_path=None,whether_analytic_init=1,**kwargs):
 
-    # Analytic-Init:load initial noise 
-    dic=torch.load(analytic_init_path)
-    expectation_X_0=dic["Expectation_X0"]
-    tr_Cov_d=dic["Tr_Cov_d"]
-    sqrt_alpha_t=model.get_sqrt_alpha_t_bar(expectation_X_0,torch.tensor([M-1]).to('cuda'))
-    mu_p=sqrt_alpha_t*expectation_X_0
-    alpha_t=sqrt_alpha_t**2
-    sigma_p=torch.sqrt(1-alpha_t + alpha_t*tr_Cov_d)
-    eps=torch.randn_like(mu_p)
-    
-    if whether_analytic_init:
+    # ------ Analytic-Init:loading initial noise starts-------
+    if whether_analytic_init: 
+        dic=torch.load(analytic_init_path)
+        expectation_X_0=dic["Expectation_X0"]
+        tr_Cov_d=dic["Tr_Cov_d"]
+        sqrt_alpha_t=model.get_sqrt_alpha_t_bar(expectation_X_0,torch.tensor([M-1]).to('cuda'))
+        mu_p=sqrt_alpha_t*expectation_X_0
+        alpha_t=sqrt_alpha_t**2
+        sigma_p=torch.sqrt(1-alpha_t + alpha_t*tr_Cov_d)
+        eps=torch.randn_like(mu_p)
         init=mu_p+sigma_p*eps
     else :
-        init=torch.randn_like(mu_p)
+        init=None
+    # ------ Analytic-Init:loading initial noise finished-------
     
     ddim_sampler = DDIMSampler(model) if not multiple_cond_cfg else DDIMSampler_multicond(model)
     batch_size = noise_shape[0]
@@ -212,7 +212,7 @@ def image_guided_synthesis_analytic(model, prompts, videos, noise_shape, n_sampl
     else:
         uc = None
 
-    ## we need one more unconditioning image=yes, text=""
+
     if multiple_cond_cfg and cfg_img != 1.0:
         uc_2 = {"c_crossattn": [torch.cat([uc_emb,img_emb],dim=1)]}
         if model.model.conditioning_key == 'hybrid':
@@ -250,8 +250,8 @@ def image_guided_synthesis_analytic(model, prompts, videos, noise_shape, n_sampl
                                             fs=fs,
                                             timestep_spacing=timestep_spacing,
                                             guidance_rescale=guidance_rescale,
-                                            ddpm_from=M,
-                                            x_T=init,
+                                            ddpm_from=M, # timestep that the generative progress starts at
+                                            x_T=init, # Analytic-Init
                                             **kwargs
                                             )
 
@@ -317,7 +317,7 @@ def run_inference(args, gpu_num, gpu_no):
 
             batch_samples = image_guided_synthesis_analytic(model, prompts, videos, noise_shape, args.n_samples, args.ddim_steps, args.ddim_eta, \
                             args.unconditional_guidance_scale, args.cfg_img, args.frame_stride, args.text_input, args.multiple_cond_cfg, args.loop, args.interp, args.timestep_spacing, args.guidance_rescale
-                            ,M=args.M,analytic_init_path=args.analytic_init_path,whether_analytic_inti=args.whether_analytic_init)
+                            ,M=args.M,analytic_init_path=args.analytic_init_path,whether_analytic_init=args.whether_analytic_init)
             ## save each example individually
         
             for nn, samples in enumerate(batch_samples):

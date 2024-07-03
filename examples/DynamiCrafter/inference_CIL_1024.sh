@@ -2,7 +2,7 @@ seed=123
 
 name=inference
 
-ckpt=ckpt/finetuned/timenoise.ckpt # path to your checkpoint
+ckpt=/mnt/vepfs/zhuhongzhou/Fusion/newCrafter/DynamiCrafter-CIL-1024/timenoise.ckpt # path to your checkpoint
 config=configs/inference_1024_v1.0.yaml
 
 prompt_dir=prompts/1024 # file for prompts, which includes images and their corresponding text
@@ -14,7 +14,7 @@ W=1024
 FS=24
 M=1000
 
-CUDA_VISIBLE_DEVICES=1 python3 -m torch.distributed.launch \
+CUDA_VISIBLE_DEVICES=7 python3 -m torch.distributed.launch \
 --nproc_per_node=1 --nnodes=1 --master_addr=127.0.0.1 --master_port=23459 --node_rank=0 \
 scripts/evaluation/ddp_wrapper.py \
 --module 'inference' \
@@ -35,6 +35,5 @@ scripts/evaluation/ddp_wrapper.py \
 --guidance_rescale 0.7 \
 --perframe_ae \
 --M ${M} \
---whether_analytic_init 0 \
---analytic_init_path 'ckpt/initial_noise_1024.pt' 
+--whether_analytic_init 0  
  

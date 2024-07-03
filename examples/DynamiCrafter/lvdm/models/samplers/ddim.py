@@ -21,7 +21,9 @@ class DDIMSampler(object):
             if attr.device != torch.device("cuda"):
                 attr = attr.to(torch.device("cuda"))
         setattr(self, name, attr)
-
+    '''
+    Make Noise Schedule. `ddpm_from` denotes timestep that the generative progress starts at.
+    '''
     def make_schedule(self, ddim_num_steps, ddim_discretize="linear", ddim_eta=0., verbose=True,ddpm_from=1000):
         self.ddim_timesteps = make_ddim_timesteps(ddim_discr_method=ddim_discretize, num_ddim_timesteps=ddim_num_steps,
                                                   num_ddpm_timesteps=ddpm_from,verbose=verbose)
