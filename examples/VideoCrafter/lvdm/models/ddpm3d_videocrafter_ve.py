@@ -32,13 +32,13 @@ from lvdm.common import (
     exists,
     default
 )
-def logit_normal_sampler(m, s=1, beta_m=1, sample_num=1000000):
+def logit_normal_sampler(m, s=1, beta_m=100, sample_num=1000000):
     y_samples = torch.randn(sample_num) * s + m
     x_samples = beta_m * (torch.exp(y_samples) / (1 + torch.exp(y_samples)))
     return x_samples
 
 
-def mu_t(t,a=5, mu_max=1):
+def mu_t(t,a=5, mu_max=4):
     t = t.to('cpu')
     return 2 * mu_max * t ** a - mu_max
    
