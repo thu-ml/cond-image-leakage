@@ -30,11 +30,9 @@ def sampling(
         resolution,
         batch_size,
         use_ema = True,
-        debug=False,
         num_processes=8, 
         local_rank=0, 
         motion_bucket_id=20,
-        noise_aug_strength=0.002,
         fps=3,
         num_frames=16,
         seed=42,
@@ -56,31 +54,22 @@ def sampling(
 
     # Get the training dataset
     dataset = ImageDataset(data_dir)
-    if not debug:
-        distributed_sampler = DistributedSampler(
-            dataset,
-            shuffle=False,
-        )
+    distributed_sampler = DistributedSampler(
+        dataset,
+        shuffle=False,
+    )
 
-        # DataLoaders creation:
-        dataloader = torch.utils.data.DataLoader(
-            dataset,
-            batch_size=batch_size,
-            shuffle=False,
-            sampler=distributed_sampler,
-            num_workers=num_processes,
-            pin_memory=True,
-            drop_last=False,
-        )
-    else:
-        dataloader = torch.utils.data.DataLoader(
-            dataset,
-            batch_size=batch_size,
-            shuffle=False,
-            num_workers=num_processes,
-            pin_memory=True,
-            drop_last=False,
-        )
+    # DataLoaders creation:
+    dataloader = torch.utils.data.DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        sampler=distributed_sampler,
+        num_workers=num_processes,
+        pin_memory=True,
+        drop_last=False,
+    )
+
 
 
     print(f'local_rank is {local_rank}')
@@ -110,7 +99,6 @@ def sampling(
 
 def main(
     seed,
-    debug,
     resolution,
     batch_size,
     original_svd,
@@ -123,19 +111,13 @@ def main(
     checkpoint_root,
     num_step,
     sigma_max,
-    noise_aug_strength,
-    analytic_path=''
+    analytic_path=None
 ):
 
-    if debug:
-        # use single process for debugging
-        local_rank = 0
-        torch.cuda.set_device(local_rank)
-        num_processes = 1
-    else:
-        # Initialize distributed training
-        local_rank = init_dist(launcher="pytorch", backend="nccl")
-        num_processes = dist.get_world_size()
+
+    # Initialize distributed training
+    local_rank = init_dist(launcher="pytorch", backend="nccl")
+    num_processes = dist.get_world_size()
 
    
     scheduler_path=f'./schedulers/scheduler_config{sigma_max}.json' 
@@ -151,8 +133,8 @@ def main(
 
     sampling(data_dir=data_dir,num_step=num_step,scheduler_path=scheduler_path,pretrained_model_path=pretrained_model_path,
              checkpoint_path=checkpoint_path, use_ema = use_ema,save_dir= save_dir, resolution=tuple(resolution), 
-             batch_size=batch_size, debug=debug, num_processes=num_processes, local_rank=local_rank, 
-             motion_bucket_id=motion_bucket_id,noise_aug_strength=noise_aug_strength,fps=fps,seed=seed,analytic_path=analytic_path)
+             batch_size=batch_size, num_processes=num_processes, local_rank=local_rank, 
+             motion_bucket_id=motion_bucket_id,fps=fps,seed=seed,analytic_path=analytic_path)
 
 
 
