@@ -1,6 +1,6 @@
 import os
 import torch
-from svd.inference.pipline_svd import StableVideoDiffusionPipeline
+from svd.inference.pipline_CILsvd import StableVideoDiffusionCILPipeline
 from svd.schedulers.scheduling_euler_discrete import EulerDiscreteScheduler
 from svd.training.utils import save_videos_grid, load_PIL_images
 from einops import rearrange
@@ -50,9 +50,9 @@ def sampling(
         print(f'the model is loaded from {checkpoint_path}')
         if use_ema:
             ema_unet.copy_to(unet.parameters())
-        pipe = StableVideoDiffusionPipeline.from_pretrained(pretrained_model_path, unet=unet,scheduler=scheduler).to('cuda')
+        pipe = StableVideoDiffusionCILPipeline.from_pretrained(pretrained_model_path, unet=unet,scheduler=scheduler).to('cuda')
     else:
-        pipe = StableVideoDiffusionPipeline.from_pretrained(pretrained_model_path,scheduler=scheduler).to(local_rank)
+        pipe = StableVideoDiffusionCILPipeline.from_pretrained(pretrained_model_path,scheduler=scheduler).to(local_rank)
 
     # Get the training dataset
     dataset = ImageDataset(data_dir)

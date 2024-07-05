@@ -11,7 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+import os,random
+import warnings
+import torchvision.transforms as transforms
+from decord import VideoReader
 import inspect
 from dataclasses import dataclass
 from typing import Callable, Dict, List, Optional, Union
@@ -54,9 +57,17 @@ def tensor2vid(video: torch.Tensor, processor, output_type="np"):
 
     return outputs
 
+class RandomHorizontalFlipVideo(object):
+    def __init__(self, p=0.5):
+        self.p = p
+
+    def __call__(self, clip):
+        if torch.rand(1) < self.p:
+            return torch.flip(clip, [3])
+        return clip
 
 @dataclass
-class StableVideoDiffusionPipelineOutput(BaseOutput):
+class StableVideoDiffusionCILPipelineOutput(BaseOutput):
     r"""
     Output class for zero-shot text-to-video pipeline.
 
@@ -69,7 +80,7 @@ class StableVideoDiffusionPipelineOutput(BaseOutput):
     frames: Union[List[PIL.Image.Image], np.ndarray]
 
 
-class StableVideoDiffusionPipeline(DiffusionPipeline):
+class StableVideoDiffusionCILPipeline(DiffusionPipeline):
     r"""
     Pipeline to generate video from an input image using Stable Video Diffusion.
 
@@ -247,7 +258,91 @@ class StableVideoDiffusionPipeline(DiffusionPipeline):
 
         if height % 8 != 0 or width % 8 != 0:
             raise ValueError(f"`height` and `width` have to be divisible by 8 but are {height} and {width}.")
+        
+    # prepare analytical optimal initial noise for Analytic-Init
+    def prepare_initial_noise(
+            self,
+            num_frames,
+            width,
+            height,
+            fps,
+            device,
+            analytic_path=None
+    ):
+        Expectation_X_0=0
+        trCov_d=0
+        if analytic_path:
+            # Case 1: load Expectation_x_0 and trCov_d directly from the file
+            if os.path.isfile(analytic_path):
+                try:
+                    data = torch.load(analytic_path)
+                    if 'trCov_d' in data and 'Expectation_x_0' in data:
+                        trCov_d = data['trCov_d']
+                        Expectation_X_0 = data['Expectation_x_0']
+                    else:
+                        raise KeyError(f"Keys 'trCov_d' and 'Expectation_x_0' not found in {analytic_path}")
+                except (KeyError, Exception) as e:
+                    trCov_d = 0
+                    Expectation_X_0 = 0
+                    warnings.warn(f"Warning: {analytic_path} is invalid! Exception: {e}")
+            # Case 2: estimate Expectation_x_0 and trCov_d from a folder of videos
+            elif os.path.isdir(analytic_path):
+                video_list = [f for f in os.listdir(analytic_path) if f.endswith('.mp4')]
+                if not video_list:
+                    trCov_d = 0
+                    Expectation_X_0 = 0
+                    warnings.warn(f"Warning: {analytic_path} is invalid!")
+                else:
+                    # Load videos
+                    pixel_transforms = transforms.Compose([
+                        transforms.Resize((width,height), antialias=True),
+                        RandomHorizontalFlipVideo(),
+                        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5], inplace=True),
+                    ])
+                    sum_tensor=0
+                    sum_square_tensor=0
+                    cnt=0
+                    for video_dir in video_list:
+                        while True:
+                            try:
+                                video_dir=os.path.join(analytic_path,video_dir)
+                                video_reader = VideoReader(video_dir)
+                                ori_fps = video_reader.get_avg_fps()
+                                sample_stride = round(ori_fps/fps)
+                                # sample sample_n_frames frames from videos with stride sample_stride
+                                video_length = len(video_reader)
+                                clip_length = min(video_length, (num_frames - 1) * sample_stride + 1)
+                                start_idx = random.randint(0, video_length - clip_length)
+                                batch_index = np.linspace(start_idx, start_idx + clip_length - 1, num_frames, dtype=int)
 
+                                pixel_values = torch.from_numpy(video_reader.get_batch(batch_index).asnumpy()).permute(0, 3, 1, 2).contiguous()
+                                pixel_values = pixel_values / 255. #[T, C, H, W] with range [0, 1]
+                                del video_reader
+                                break
+                            except Exception as e:
+                               warnings.warn(f"Warning: Exception: {e}") 
+                        # pixel space to latent space
+                        pixel_values = pixel_transforms(pixel_values).to(device) #[T, C, H, W] with range [-1, 1]
+                        latent = self.vae.encode(pixel_values).latent_dist.sample()
+                        latent = latent * self.vae.config.scaling_factor
+                        
+                        cnt +=1
+                        sum_tensor+=latent
+                        sum_square_tensor+=latent**2
+                    # estimate expectation of X_0 
+                    Expectation_X_0=sum_tensor/cnt
+                    # estimate tr(Cov)/d, where d denotes dimension of the tensor
+                    tr_Cov=(sum_square_tensor/cnt-Expectation_X_0**2).sum()
+                    d=1
+                    for dim in Expectation_X_0.shape:
+                        d*=dim
+                    trCov_d=tr_Cov/d           
+            else:
+                warnings.warn(f"Warning: {analytic_path} is invalid!")
+                
+        return trCov_d,Expectation_X_0
+    
+    
     def prepare_latents(
         self,
         batch_size,
@@ -258,8 +353,9 @@ class StableVideoDiffusionPipeline(DiffusionPipeline):
         dtype,
         device,
         generator,
+        Expectation_X_0=0,
+        trCov_d=0,
         latents=None,
-        analytic_path=''
     ):
         shape = (#[B,T,C,H,W]
             batch_size,
@@ -276,11 +372,9 @@ class StableVideoDiffusionPipeline(DiffusionPipeline):
 
         if latents is None:
             latents = randn_tensor(shape, generator=generator, device=device, dtype=dtype) 
-            #Analytic-Init
-            dict=torch.load(analytic_path, map_location='cpu')
-            expectation_x_0=dict['Expectation_x_0'].to(device)
-            trCov_d=dict['trCov_d']
-            latents = latents * (self.scheduler.init_noise_sigma + math.sqrt(trCov_d)) + expectation_x_0
+            # Analytic-Init,the optimal expectation and variance of equation (5) 
+            # of the paper: https://arxiv.org/pdf/2406.15735.
+            latents = latents * math.sqrt(self.scheduler.init_noise_sigma**2 + trCov_d) + Expectation_X_0
         else:
             latents = latents.to(device)
         # scale the initial noise by the standard deviation required by the scheduler
@@ -324,7 +418,7 @@ class StableVideoDiffusionPipeline(DiffusionPipeline):
         callback_on_step_end: Optional[Callable[[int, int, Dict], None]] = None,
         callback_on_step_end_tensor_inputs: List[str] = ["latents"],
         return_dict: bool = True,
-        analytic_path=''
+        analytic_path:str =None
     ):
         r"""
         The call function to the pipeline for generation.
@@ -378,28 +472,39 @@ class StableVideoDiffusionPipeline(DiffusionPipeline):
                 will be passed as `callback_kwargs` argument. You will only be able to include variables listed in the
                 `._callback_tensor_inputs` attribute of your pipeline class.
             return_dict (`bool`, *optional*, defaults to `True`):
-                Whether or not to return a [`~pipelines.stable_diffusion.StableDiffusionPipelineOutput`] instead of a
+                Whether or not to return a [`~pipelines.stable_diffusion.StableDiffusionCILPipelineOutput`] instead of a
                 plain tuple.
-
+            analytic_path (`str`,*optional*):
+                Path to the [Analytic-Init initial noise](https://arxiv.org/pdf/2406.15735). If not provided, the baseline initial noise is applied. If the path 
+                is a folder of videos, then estimate the initial noise with these videos; if the path is a file of expectation
+                and variance of the optimal initial noise, load it from the file.
         Returns:
             [`~pipelines.stable_diffusion.StableVideoDiffusionPipelineOutput`] or `tuple`:
-                If `return_dict` is `True`, [`~pipelines.stable_diffusion.StableVideoDiffusionPipelineOutput`] is returned,
+                If `return_dict` is `True`, [`~pipelines.stable_diffusion.StableVideoDiffusionCILPipelineOutput`] is returned,
                 otherwise a `tuple` is returned where the first element is a list of list with the generated frames.
 
         Examples:
 
         ```py
-        from diffusers import StableVideoDiffusionPipeline
-        from diffusers.utils import load_image, export_to_video
+            from diffusers import StableVideoDiffusionCILPipeline,EulerDiscreteScheduler
+            import torch
+            from diffusers.utils import load_image, export_to_video
+            
+            pipeline = StableVideoDiffusionCILPipeline.from_pretrained(
+                "stabilityai/stable-video-diffusion-img2vid-xt", torch_dtype=torch.float16, variant="fp16"
+            ) 
+            pipeline.enable_model_cpu_offload()
 
-        pipe = StableVideoDiffusionPipeline.from_pretrained("stabilityai/stable-video-diffusion-img2vid-xt", torch_dtype=torch.float16, variant="fp16")
-        pipe.to("cuda")
+            # demo
+            image = load_image("https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/diffusers/svd/rocket.png")
+            image = image.resize((1024, 576))
 
-        image = load_image("https://lh3.googleusercontent.com/y-iFOHfLTwkuQSUegpwDdgKmOjRSTvPxat63dQLB25xkTs4lhIbRUFeNBWZzYf370g=s1200")
-        image = image.resize((1024, 576))
+            generator = torch.manual_seed(42)
 
-        frames = pipe(image, num_frames=25, decode_chunk_size=8).frames[0]
-        export_to_video(frames, "generated.mp4", fps=7)
+            frames = pipeline(image, motion_bucket_id=20, decode_chunk_size=8, generator=generator).frames[0]
+
+            export_to_video(frames, "generated.mp4", fps=7)
+
         ```
         """
         #scheduler
@@ -466,13 +571,21 @@ class StableVideoDiffusionPipeline(DiffusionPipeline):
         )
         added_time_ids = added_time_ids.to(device)
 
-        # 4. Prepare timesteps
+        # 6. Prepare timesteps
         self.scheduler.set_timesteps(num_inference_steps, device=device)
         timesteps = self.scheduler.timesteps
-
-        # 5. Prepare latent variables
+                
+        # 7.Analytic-Init of the paper: https://arxiv.org/pdf/2406.15735
+        Expectation_X_0,trCov_d = self.prepare_initial_noise(
+            num_frames,
+            width,
+            height,
+            fps,
+            device,
+            analytic_path
+        )
+        # 8. Prepare latent variables
         num_channels_latents = self.unet.config.in_channels
-        
         latents = self.prepare_latents(
             batch_size * num_videos_per_prompt,
             num_frames,
@@ -482,11 +595,12 @@ class StableVideoDiffusionPipeline(DiffusionPipeline):
             image_embeddings.dtype,
             device,
             generator,
+            Expectation_X_0,
+            trCov_d,
             latents,
-            analytic_path
         )
 
-        # 7. Prepare guidance scale
+        # 9. Prepare guidance scale
         guidance_scale = torch.linspace(min_guidance_scale, max_guidance_scale, num_frames).unsqueeze(0)
         guidance_scale = guidance_scale.to(device, latents.dtype)
         guidance_scale = guidance_scale.repeat(batch_size * num_videos_per_prompt, 1)
@@ -494,7 +608,7 @@ class StableVideoDiffusionPipeline(DiffusionPipeline):
 
         self._guidance_scale = guidance_scale
 
-        # 8. Denoising loop
+        # 10. Denoising loop
         num_warmup_steps = len(timesteps) - num_inference_steps * self.scheduler.order
         self._num_timesteps = len(timesteps)
         with self.progress_bar(total=num_inference_steps) as progress_bar, torch.autocast("cuda"), torch.no_grad():
@@ -549,7 +663,7 @@ class StableVideoDiffusionPipeline(DiffusionPipeline):
         if not return_dict:
             return frames
 
-        return StableVideoDiffusionPipelineOutput(frames=frames)
+        return StableVideoDiffusionCILPipelineOutput(frames=frames)
 
 
 # resizing utils
