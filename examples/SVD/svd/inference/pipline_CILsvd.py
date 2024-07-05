@@ -317,6 +317,7 @@ class StableVideoDiffusionCILPipeline(DiffusionPipeline):
 
                                 pixel_values = torch.from_numpy(video_reader.get_batch(batch_index).asnumpy()).permute(0, 3, 1, 2).contiguous()
                                 pixel_values = pixel_values / 255. #[T, C, H, W] with range [0, 1]
+                                pixel_values = pixel_values.to(torch.float16)
                                 del video_reader
                                 break
                             except Exception as e:
@@ -374,7 +375,7 @@ class StableVideoDiffusionCILPipeline(DiffusionPipeline):
             latents = randn_tensor(shape, generator=generator, device=device, dtype=dtype) 
             # Analytic-Init,the optimal expectation and variance of equation (5) 
             # of the paper: https://arxiv.org/pdf/2406.15735.
-            latents = latents * math.sqrt(self.scheduler.init_noise_sigma**2 + trCov_d) + Expectation_X_0
+            latents = latents * torch.sqrt(self.scheduler.init_noise_sigma**2 + trCov_d) + Expectation_X_0
         else:
             latents = latents.to(device)
         # scale the initial noise by the standard deviation required by the scheduler
