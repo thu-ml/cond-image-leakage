@@ -5,8 +5,8 @@ noise_scheduler_kwargs:
   P_mean: -1.2 
   P_std: 1.2 
   sigma_data: 1
-  condition_P_mean: -3.0
-  condition_P_std: 1.6
+  beta_m: 15
+  a: 5
 
 train_data:
   file_path: '../dataset/results_2M_train.csv'
@@ -19,7 +19,6 @@ output_dir: "results/train"
 pretrained_model_path: "./ckpt/pretrained/stable-video-diffusion-img2vid/"
 resume_path: "" 
 
-debug: False
 use_ema: True
 gradient_checkpointing: True
 mixed_precision_training: True
@@ -31,5 +30,5 @@ max_train_steps:  100000
 ema_decay: 0.9999
 checkpointing_steps:  10000
 
-beta_m: 15
-a: 5
+validation_folder: "./demo"
+validation_steps: 5000
