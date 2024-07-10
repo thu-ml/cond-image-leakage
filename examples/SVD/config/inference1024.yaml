@@ -1,6 +1,5 @@
 seed:
   42
-debug: false
 original_svd: true
 pretrained_model_path: "./ckpt/pretrained/stable-video-diffusion-img2vid/"
 batch_size: 1
@@ -19,8 +18,6 @@ fps:
   3
 num_step:
   25
-noise_aug_strength:
-  0
 sigma_max:
   100
 analytic_path:
