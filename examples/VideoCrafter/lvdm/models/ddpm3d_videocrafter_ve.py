@@ -32,27 +32,31 @@ from lvdm.common import (
     exists,
     default
 )
+'''
+Sampler for the logit-normal distribution.
+'''
 def logit_normal_sampler(m, s=1, beta_m=100, sample_num=1000000):
     y_samples = torch.randn(sample_num) * s + m
     x_samples = beta_m * (torch.exp(y_samples) / (1 + torch.exp(y_samples)))
     return x_samples
-
-
+'''
+the \mu(t) function
+'''
 def mu_t(t,a=5, mu_max=4):
     t = t.to('cpu')
     return 2 * mu_max * t ** a - mu_max
-   
-def get_alpha_s_and_sigma_s(t, a=5,beta_m=100):
+'''
+get beta_s
+'''  
+def get_beta_s(t, a=5,beta_m=100):
     mu = mu_t(t, a=a)
     sigma_s = logit_normal_sampler(m=mu, beta_m=beta_m,sample_num=t.shape[0])
-    alpha_s = torch.sqrt(1 - sigma_s ** 2)
-    return alpha_s, sigma_s
+    return sigma_s
 
 
 __conditioning_keys__ = {'concat': 'c_concat',
                          'crossattn': 'c_crossattn',
                          'adm': 'y'}
-BS=1
 class DDPM(pl.LightningModule):
     # classic DDPM with Gaussian diffusion, in image space
     def __init__(self,
@@ -969,10 +973,10 @@ class LatentVisualDiffusion(LatentDiffusion):
         img_emb = self.image_proj_model(img_emb)
 
 
-
-        _, sigma_s = get_alpha_s_and_sigma_s(t/1000.0, self.a,self.beta_m)
+        # ------------------ TimeNoise for CLIP ----------------------
+        sigma_s = get_beta_s(t/1000.0, self.a,self.beta_m)
         condition_noise = torch.randn_like(img_emb)
-        sigma_s = sigma_s.reshape([BS, 1, 1]).to(x.device)
+        sigma_s = sigma_s.reshape([img_emb.shape[0], 1, 1]).to(x.device)
         img_emb = img_emb + sigma_s * condition_noise
     
         if self.model.conditioning_key == 'hybrid':

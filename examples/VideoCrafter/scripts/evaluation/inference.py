@@ -11,14 +11,6 @@ from einops import rearrange
 import re
 sys.path.insert(1, os.path.join(sys.path[0], '..', '..'))
 
-
-def get_latent_z(model, videos):
-    b, c, t, h, w = videos.shape
-    x = rearrange(videos, 'b c t h w -> (b t) c h w')
-    z = model.encode_first_stage(x)
-    z = rearrange(z, '(b t) c h w -> b c t h w', b=b, t=t)
-    return z
-
 def get_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument("--seed", type=int, default=20230211, help="seed for seed_everything")
@@ -126,7 +118,7 @@ def run_inference(args, gpu_num, gpu_no, **kwargs):
         else:
             raise NotImplementedError
         
-        
+        # -------------- Analytic- Init ----------------
         dic=torch.load(args.analytic_init_path)
         expectation_X_0=dic["Expectation_X0"]
         tr_Cov_d=dic["Tr_Cov_d"]
