@@ -152,7 +152,7 @@ lightning:
       params:
         filename: '{epoch}-{step}'
         save_weights_only: True
-        every_n_train_steps: 4000 #20000 # 3s/step*2w=
+        every_n_train_steps: 4000
     batch_logger:
       target: callbacks.ImageLogger
       params:
