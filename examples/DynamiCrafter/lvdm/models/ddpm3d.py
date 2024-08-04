@@ -42,7 +42,7 @@ def logit_normal_sampler(m, s=1, beta_m=100, sample_num=1000000):
 '''
 the \mu(t) function
 '''
-def mu_t(t,a=5, mu_max=4):
+def mu_t(t,a=5, mu_max=1):
     t = t.to('cpu')
     return 2 * mu_max * t ** a - mu_max
 '''
