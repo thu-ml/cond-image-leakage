@@ -1,0 +1,36 @@
+{
+  "_class_name": "UNet3DConditionModel",
+  "_diffusers_version": "0.24.0",
+  "_name_or_path": "output/latent/train_2023-12-15T12-02-48/checkpoint-2000",
+  "act_fn": "silu",
+  "attention_head_dim": 64,
+  "block_out_channels": [
+    320,
+    640,
+    1280,
+    1280
+  ],
+  "cross_attention_dim": 1024,
+  "down_block_types": [
+    "CrossAttnDownBlock3D",
+    "CrossAttnDownBlock3D",
+    "CrossAttnDownBlock3D",
+    "DownBlock3D"
+  ],
+  "downsample_padding": 1,
+  "in_channels": 4,
+  "layers_per_block": 2,
+  "mid_block_scale_factor": 1,
+  "motion_mask": true,
+  "motion_strength": true,
+  "norm_eps": 1e-05,
+  "norm_num_groups": 32,
+  "out_channels": 4,
+  "sample_size": 32,
+  "up_block_types": [
+    "UpBlock3D",
+    "CrossAttnUpBlock3D",
+    "CrossAttnUpBlock3D",
+    "CrossAttnUpBlock3D"
+  ]
+}

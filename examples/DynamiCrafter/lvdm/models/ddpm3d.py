@@ -90,7 +90,8 @@ class DDPM(pl.LightningModule):
                  logvar_init=0.,
                  rescale_betas_zero_snr=False,
                  a=5,
-                 beta_m=100
+                 beta_m=100,
+                 clip_type=2
                  ):
         super().__init__()
         assert parameterization in ["eps", "x0", "v"], 'currently only supporting "eps" and "x0" and "v"'
@@ -106,7 +107,7 @@ class DDPM(pl.LightningModule):
         if isinstance(self.image_size, int):
             self.image_size = [self.image_size, self.image_size]
         self.use_positional_encodings = use_positional_encodings
-        self.model = DiffusionWrapper(unet_config, conditioning_key,a,beta_m)
+        self.model = DiffusionWrapper(unet_config, conditioning_key,a,beta_m,clip_type)
         #count_params(self.model, verbose=True)
         self.use_ema = use_ema
         self.rescale_betas_zero_snr = rescale_betas_zero_snr
@@ -1115,11 +1116,15 @@ class LatentVisualDiffusion(LatentDiffusion):
         img_emb = self.embedder(img) ## b l c
         img_emb = self.image_proj_model(img_emb)
         # ------------------ TimeNoise for CLIP ----------------------
-        beta_s = get_beta_s(t/1000.0, self.model.a,self.model.beta_m)
-        condition_noise = torch.randn_like(img_emb)
-        beta_s = beta_s.reshape([img_emb.shape[0], 1, 1]).to(x.device)
-        img_emb = img_emb + beta_s * condition_noise
-        
+        if self.model.clip_type == 1:
+            beta_s = get_beta_s(t/1000.0, self.model.a,self.model.beta_m)
+            condition_noise = torch.randn_like(img_emb)
+            beta_s = beta_s.reshape([img_emb.shape[0], 1, 1]).to(x.device)
+            img_emb = img_emb + beta_s * condition_noise
+        else:
+            p = random.random()
+            if p < 0.95:
+                img_emb=torch.randn_like(img_emb)
         if self.model.conditioning_key == 'hybrid':
             ## simply repeat the cond_frame to match the seq_len of z
             img_cat_cond = z[:,:,cond_frame_index,:,:]
@@ -1257,12 +1262,13 @@ class LatentVisualDiffusion(LatentDiffusion):
 
 
 class DiffusionWrapper(pl.LightningModule):
-    def __init__(self, diff_model_config, conditioning_key,a,beta_m):
+    def __init__(self, diff_model_config, conditioning_key,a,beta_m,clip_type):
         super().__init__()
         self.diffusion_model = instantiate_from_config(diff_model_config)
         self.conditioning_key = conditioning_key
         self.a=a
         self.beta_m=beta_m
+        self.clip_type=clip_type
     def forward(self, x, t, c_concat: list = None, c_crossattn: list = None,
                 c_adm=None, s=None, mask=None, **kwargs):
         # temporal_context = fps is foNone

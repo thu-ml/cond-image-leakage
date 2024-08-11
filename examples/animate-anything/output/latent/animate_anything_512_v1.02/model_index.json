@@ -1,0 +1,25 @@
+{
+  "_class_name": "LatentToVideoPipeline",
+  "_diffusers_version": "0.24.0",
+  "_name_or_path": "output/latent/train_2023-12-15T12-02-48/checkpoint-2000",
+  "scheduler": [
+    "diffusers",
+    "DDIMScheduler"
+  ],
+  "text_encoder": [
+    "transformers",
+    "CLIPTextModel"
+  ],
+  "tokenizer": [
+    "transformers",
+    "CLIPTokenizer"
+  ],
+  "unet": [
+    "models.unet_3d_condition_mask",
+    "UNet3DConditionModel"
+  ],
+  "vae": [
+    "diffusers",
+    "AutoencoderKL"
+  ]
+}

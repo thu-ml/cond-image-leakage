@@ -1,0 +1,88 @@
+pretrained_model_path: output/latent/animate_anything_512_v1.02
+output_dir: ./output/latent
+name: demo
+train_data:
+  width: 512
+  height: 512
+  use_bucketing: false
+  return_mask: true
+  return_motion: true
+  sample_start_idx: 1
+  fps: 8
+  n_sample_frames: 16
+  json_path: /webvid/animation0.json
+train_timesteps_from: 1000
+validation_data:
+  prompt: fireworks exploding in the sky
+  prompt_image: /mnt/vepfs/zhuhongzhou/animate-anything/example/webvid_human/451534.png
+  dataset_jsonl: /mnt/vepfs/zhuhongzhou/animate-anything/data.jsonl # To define
+  sample_preview: true
+  num_frames: 16
+  width: 448
+  height: 256
+  num_inference_steps: 50
+  guidance_scale: 9
+  strength: 5
+dataset_types:
+- json
+shuffle: true
+validation_steps: 200
+mask_nodes: 0   # to define ,mask DDIM nodes out of {num_inference_steps}
+trainable_modules:
+- all
+- attn1
+- conv_in
+- temp_conv
+- motion
+not_trainable_modules: []
+trainable_text_modules: null
+extra_unet_params: null
+extra_text_encoder_params: null
+train_batch_size: 4
+max_train_steps: 10000
+learning_rate: 5.0e-06
+scale_lr: false
+lr_scheduler: constant
+lr_warmup_steps: 0
+adam_beta1: 0.9
+adam_beta2: 0.999
+adam_weight_decay: 0
+adam_epsilon: 1.0e-08
+max_grad_norm: 1.0
+gradient_accumulation_steps: 1
+gradient_checkpointing: true
+text_encoder_gradient_checkpointing: false
+checkpointing_steps: 2000
+resume_from_checkpoint: null
+resume_step: null
+mixed_precision: fp16
+use_8bit_adam: false
+enable_xformers_memory_efficient_attention: false
+enable_torch_2_attn: true
+seed: 4
+train_text_encoder: false
+use_offset_noise: false
+rescale_schedule: false
+offset_noise_strength: 0.1
+extend_dataset: false
+cache_latents: false
+cached_latent_dir: null
+lora_version: cloneofsimo
+save_lora_for_webui: true
+only_lora_for_webui: false
+lora_bias: none
+use_unet_lora: false
+use_text_lora: false
+unet_lora_modules:
+- UNet3DConditionModel
+text_encoder_lora_modules:
+- CLIPEncoderLayer
+save_pretrained_model: true
+lora_rank: 16
+lora_path: ''
+lora_unet_dropout: 0.1
+lora_text_dropout: 0.1
+logger_type: tensorboard
+motion_mask: true
+motion_strength: true
+kwargs: {}

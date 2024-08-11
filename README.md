@@ -22,8 +22,8 @@ Diffusion models have obtained substantial progress in image-to-video (I2V) gene
 
 ## ✅ To do list:
 - [x] __[2024.06.25]__: Release code, models and project page.
+- [x] __[2024.08.11]__: Add inference code for Animate-Anything.
 - [ ] Release the models without watermarks and in other resolutions.
-- [ ] Applying our strategy on [Vidu](https://arxiv.org/abs/2405.04233), a transformer-based text-to-video diffusion model.
 
 
 ## ⚙️ Setup Environment
@@ -49,7 +49,13 @@ conda create -n svd python=3.9.18
 conda activate svd
 pip install -r requirements.txt
 ```
-
+To set up Animate-Anything:
+```
+cd examples/animate-anything
+conda create -n animation python=3.10
+conda activate animation
+pip install -r requirements.txt
+```
 ##  ☀️ Dataset
 Download the WebVid dataset from [here](https://github.com/m-bain/webvid), where we use Webvid-2M subset. Put ```.csv``` file in  ```examples/dataset/results_2M_train.csv``` and video data in ```examples/dataset/```. **We use the raw data without any filters.**
 ## 🧊 Inference Strategy
@@ -121,6 +127,19 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
     <img src=assets/SVD/39_sample0.gif width="250">
   </td>
   </tr>
+     <tr>
+  <td>
+    Animate-Anything
+  </td>
+  <td>
+    <img src='assets/animate/52img.gif' width="250">
+  </td>
+  <td>
+    <img src='assets/animate/52_1000.gif' width="250">
+  </td>
+  <td>
+    <img src='assets/animate/52.gif' width="250">
+  </td>
 </table >
 
 ### DynamiCrafter
@@ -216,6 +235,19 @@ sh inference_CIL_512.sh
 The relevant parameters in ```inference.sh``` for our strategy are explained as follows:
 * ```M```: the start time M 
 * ```analytic_init_path```: the path for initializing the mean and variance of the noise if Analytic-Init is applied 
+
+### Animate-Anything
+1. Download the original Animate-Anything checkpoints from the [repository](https://github.com/alibaba/animate-anything) and put it in ```cond-image-leakage/examples/animate-anything/output/latent/animate_anything_512_v1.02```
+2. Run the following commands:
+
+```
+cd cond-image-leakage/examples/animate-anything
+
+sh inference.sh
+```
+
+The relevant parameters in ```inference.sh``` for our strategy are explained as follows:
+* ```M```: the start time M 
 
 ## 🔥 Training Strategy
 Similar to the inference strategy, we finetune the baselines based on the repository  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiCrafter), [VideoCrafter1](https://github.com/AILab-CVC/VideoCrafter) and [SVD](https://github.com/Stability-AI/generative-models). 

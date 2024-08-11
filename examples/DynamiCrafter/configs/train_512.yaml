@@ -109,6 +109,7 @@ model:
         video_length: 16
     beta_m: 100
     a: 5
+    clip_type: 2
 data:
   target: utils_data.DataModuleFromConfig
   params:
