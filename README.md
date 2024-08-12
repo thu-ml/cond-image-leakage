@@ -56,6 +56,12 @@ conda create -n animation python=3.10
 conda activate animation
 pip install -r requirements.txt
 ```
+To set up PIA:
+```
+cd examples/PIA
+conda env create -f pia.yml
+conda activate pia
+```
 ##  ☀️ Dataset
 Download the WebVid dataset from [here](https://github.com/m-bain/webvid), where we use Webvid-2M subset. Put ```.csv``` file in  ```examples/dataset/results_2M_train.csv``` and video data in ```examples/dataset/```. **We use the raw data without any filters.**
 ## 🧊 Inference Strategy
@@ -139,6 +145,19 @@ We clone the repo of  [DynamiCrafter](https://doubiiu.github.io/projects/DynamiC
   </td>
   <td>
     <img src='assets/animate/52.gif' width="250">
+  </td>
+       <tr>
+  <td>
+    PIA
+  </td>
+  <td>
+    <img src='assets/PIA/concert.gif' width="250">
+  </td>
+  <td>
+    <img src='assets/PIA/1000.gif' width="250">
+  </td>
+  <td>
+    <img src='assets/PIA/900.gif' width="250">
   </td>
 </table >
 
@@ -242,8 +261,19 @@ The relevant parameters in ```inference.sh``` for our strategy are explained as 
 
 ```
 cd cond-image-leakage/examples/animate-anything
+python inference.py --config example/config/concert.yaml
+```
 
-sh inference.sh
+The relevant parameters in ```cond-image-leakage/examples/PIA/example/config/base.yaml``` for our strategy are explained as follows:
+* ```noise_scheduler_kwargs.num_train_timesteps```: the start time M 
+
+### PIA
+1. Download the original Animate-Anything checkpoints from the [repository](https://github.com/open-mmlab/PIA) and put them following `cond-image-leakage/examples/PIA/README.md`.
+2. Run the following commands:
+
+```
+cd cond-image-leakage/examples/PIA
+
 ```
 
 The relevant parameters in ```inference.sh``` for our strategy are explained as follows:
