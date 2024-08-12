@@ -22,7 +22,7 @@ Diffusion models have obtained substantial progress in image-to-video (I2V) gene
 
 ## ✅ To do list:
 - [x] __[2024.06.25]__: Release code, models and project page.
-- [x] __[2024.08.11]__: Add inference code for Animate-Anything.
+- [x] __[2024.08.11]__: Add inference code for Animate-Anything and PIA
 - [ ] Release the models without watermarks and in other resolutions.
 
 
