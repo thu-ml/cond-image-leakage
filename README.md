@@ -12,7 +12,9 @@ _**[Min Zhao](https://gracezhao1997.github.io/), [Hongzhou Zhu](https://zhuhz22.
 
 
 </div>
- 
+
+This is the official implementation for [Identifying and Solving Conditional Image Leakage in Image-to-Video Diffusion Model](https://arxiv.org/abs/2406.15735) (Accepted by **NeurIPS 2024**). 
+
 ## 🔆 Overview
 
 Diffusion models have obtained substantial progress in image-to-video (I2V) generation. However, such models are not fully understood. In this paper, we report a significant but previously overlooked issue in I2V diffusion models (I2V-DMs), namely, conditional image leakage. I2V-DMs tend to over-rely on the conditional image at large time steps, neglecting the crucial task of predicting the clean video from noisy inputs, which results in videos lacking dynamic and vivid motion. We further address this challenge from both inference and training aspects by presenting plug-and-play strategies accordingly. These strategies are validated on various I2V-DMs including [DynamiCrafter](https://doubiiu.github.io/projects/DynamiCrafter),
