@@ -433,8 +433,8 @@ Naive fine-tuning and ours were trained under the same settings for fair compari
 | Model                   | Naive Fine-Tuning                                                                         | Ours on Webvid                                                                    |Watermark-free                                                                    
 |:------------------------|:---------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|
 | DynamiCrafter           | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-naive-finetune)      | [320x512](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512) |[320x512](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-512-no-watermark) [576x1024](https://huggingface.co/GraceZhao/DynamiCrafter-CIL-1024)|
-| SVD                     | [320x512](https://huggingface.co/GraceZhao/SVD-naive-finetune) | [320x512](https://huggingface.co/GraceZhao/SVD-CIL-512) ||
-| VideoCrafter1           | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-naive-finetune)     | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-CIL-512) ||
+| SVD                     | [320x512](https://huggingface.co/GraceZhao/SVD-naive-finetune) | [320x512](https://huggingface.co/GraceZhao/SVD-CIL-512) |[320x512](https://huggingface.co/zhuhz22/SVD-CIL-watermark-free)|
+| VideoCrafter1           | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-naive-finetune)     | [320x512](https://huggingface.co/GraceZhao/VideoCrafter1-CIL-512) |-|
 
 
 
