@@ -13,7 +13,7 @@ _**[Min Zhao](https://gracezhao1997.github.io/), [Hongzhou Zhu](https://zhuhz22.
 
 </div>
 
-This is the official implementation for [Identifying and Solving Conditional Image Leakage in Image-to-Video Diffusion Model](https://arxiv.org/abs/2406.15735) (Accepted by **NeurIPS 2024**). 
+This is the official implementation for [Identifying and Solving Conditional Image Leakage in Image-to-Video Diffusion Model](https://neurips.cc/virtual/2024/poster/93640) (Accepted by **NeurIPS 2024**). 
 
 ## 🔆 Overview
 
