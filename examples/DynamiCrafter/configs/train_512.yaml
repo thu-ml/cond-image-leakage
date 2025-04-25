@@ -119,8 +119,8 @@ data:
     train:
       target: lvdm.data.webvid.WebVid
       params:
-        file_path: '../dataset'
-        video_folder: '../dataset/results_2M_train.csv'
+        file_path: '../dataset/results_2M_train.csv'
+        video_folder: '../dataset'
         video_length: 16
         frame_stride: 6
         load_raw_resolution: true
